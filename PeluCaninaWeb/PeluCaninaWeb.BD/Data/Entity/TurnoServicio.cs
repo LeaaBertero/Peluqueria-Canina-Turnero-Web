@@ -8,5 +8,9 @@ namespace PeluCaninaWeb.BD.Data.Entity
 {
     public class TurnoServicio : EntityBase
     {
+        #region claves relacionadas - tabla intermedia
+        public int TurnoId { get; set; }
+        public int ServicioId { get; set; }
+        #endregion
     }
 }

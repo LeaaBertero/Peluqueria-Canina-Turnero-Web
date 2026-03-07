@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using PeluCaninaWeb.BD.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,11 @@ builder.Services.AddSwaggerGen();
 #region ConnectionString
 builder.Services.AddDbContext<Context>(op => op.UseSqlServer("name=conn"));
 #endregion
+
+//AutoMapper
+//#region AutoMapper
+//builder.Services.AddAutoMapper(typeof(Program));
+//#endregion
 
 var app = builder.Build();
 
