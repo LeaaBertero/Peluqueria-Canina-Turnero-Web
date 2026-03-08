@@ -3,7 +3,8 @@ using PeluCaninaWeb.BD.Data;
 
 namespace PeluCaninaWeb.Server.Repositorio
 {
-    public class Repositorio<E> :  IRepositorio<E> where E : class, IEntityBase
+    public class Repositorio<E> : IRepositorio<E> 
+                  where E : class, IEntityBase
     {
         private readonly Context context;
 
