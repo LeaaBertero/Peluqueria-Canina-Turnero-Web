@@ -14,11 +14,11 @@ namespace PeluCaninaWeb.Server.Controllers
     public class UsuarioControllers : ControllerBase
     {
         private readonly Context context;
-        private readonly Mapper mapper;
+        private readonly IMapper mapper;
+
 
         #region constructor
-        public UsuarioControllers(Context context, 
-                                  Mapper mapper)
+        public UsuarioControllers(Context context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;

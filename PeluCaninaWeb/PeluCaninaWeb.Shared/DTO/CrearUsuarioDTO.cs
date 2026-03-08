@@ -9,7 +9,6 @@ namespace PeluCaninaWeb.Shared.DTO
 {
     public class CrearUsuarioDTO
     {
-
         #region atributos
         [Required(ErrorMessage = "El nombre es obligatorio")]
         [MaxLength(50, ErrorMessage = "Maximo número de caracteres {1}")]

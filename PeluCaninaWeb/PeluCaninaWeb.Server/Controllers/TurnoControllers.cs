@@ -13,10 +13,12 @@ namespace PeluCaninaWeb.Server.Controllers
     public class TurnoControllers : ControllerBase
     {
         private readonly Context context;
-        private readonly Mapper mapper;
+        private readonly IMapper mapper;
+
+
 
         #region constructor
-        public TurnoControllers(Context context, Mapper mapper)
+        public TurnoControllers(Context context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;

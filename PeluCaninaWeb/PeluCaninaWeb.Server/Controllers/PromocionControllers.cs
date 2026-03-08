@@ -13,11 +13,12 @@ namespace PeluCaninaWeb.Server.Controllers
     public class PromocionControllers : ControllerBase
     {
         private readonly Context context;
-        private readonly Mapper mapper;
+        private readonly IMapper mapper;
+
 
         #region constructor
         public PromocionControllers(Context context, 
-                                    Mapper mapper)
+                                    IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;

@@ -13,10 +13,12 @@ namespace PeluCaninaWeb.Server.Controllers
     public class MascotaControllers : ControllerBase
     {
         private readonly Context context;
-        private readonly Mapper mapper;
+        private readonly IMapper mapper;
+
 
         #region constructor
-        public MascotaControllers(Context context, Mapper mapper)
+        public MascotaControllers(Context context, 
+                                  IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;

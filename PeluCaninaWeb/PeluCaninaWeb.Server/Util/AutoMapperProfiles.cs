@@ -21,7 +21,7 @@ namespace PeluCaninaWeb.Server.Util
             CreateMap<Turno, CrearTurnoDTO>();
 
             CreateMap<CrearUsuarioDTO, Usuario>();
-            CreateMap<Usuario, CrearUsuarioDTO>();    
+            CreateMap<Usuario, CrearUsuarioDTO>();
         }
     }
 }
