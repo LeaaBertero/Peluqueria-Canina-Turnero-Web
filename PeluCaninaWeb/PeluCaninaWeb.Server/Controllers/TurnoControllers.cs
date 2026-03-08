@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PeluCaninaWeb.BD.Data;
 using PeluCaninaWeb.BD.Data.Entity;
+using PeluCaninaWeb.Server.Repositorio;
 using PeluCaninaWeb.Shared.DTO;
 
 namespace PeluCaninaWeb.Server.Controllers
@@ -12,15 +13,17 @@ namespace PeluCaninaWeb.Server.Controllers
 
     public class TurnoControllers : ControllerBase
     {
-        private readonly Context context;
+        private readonly ITurnoRepositorio repositorio;
+
+        //private readonly Context context;
         private readonly IMapper mapper;
 
-
-
         #region constructor
-        public TurnoControllers(Context context, IMapper mapper)
+        public TurnoControllers(ITurnoRepositorio repositorio,
+                                IMapper mapper)
         {
-            this.context = context;
+            this.repositorio = repositorio;
+            //this.context = context;
             this.mapper = mapper;
         }
         #endregion
@@ -29,7 +32,7 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Turno>>> Get()
         {
-            return await context.Turno.ToListAsync();
+            return await repositorio.Select();
         }
         #endregion
 
@@ -37,8 +40,7 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Turno>> Get(int id)
         {
-            Turno? pepe = await context.Turno
-                .FirstOrDefaultAsync(x => x.Id == id);
+            Turno? pepe = await repositorio.SelectById(id);
 
             if (pepe == null)
             {
@@ -55,17 +57,11 @@ namespace PeluCaninaWeb.Server.Controllers
 
             try
             {
-
                 Turno entidad = mapper.Map<Turno>(entidadDTO);
 
-                //Turno entidad = new Turno();
 
-                //entidad.FechaHora = entidadDTO.FechaHora;
-                //entidad.Nota = entidadDTO.Nota;
 
-                context.Turno.Add(entidad);
-                await context.SaveChangesAsync();
-                return entidad.Id;
+                return await repositorio.Insert(entidad);
             }
             catch (Exception err)
             {
@@ -89,22 +85,23 @@ namespace PeluCaninaWeb.Server.Controllers
 
 
             //expresión lambda para buscar el id
-            var dammy = await context.Turno.
-                Where(e => e.Id == id).FirstOrDefaultAsync();
+            var dammy = await repositorio.SelectById(id);
 
             if (dammy == null)
             {
-                return NotFound("Turno no encontrada");
+                return NotFound("Reserva no encontrada");
             }
 
             dammy.FechaHora = entidad.FechaHora;
             dammy.Nota = entidad.Nota;
+
             
 
             try
             {
-                context.Turno.Update(dammy);
-                await context.SaveChangesAsync();
+                await repositorio.Update(id, dammy);
+
+
                 return Ok();
             }
             catch (Exception err)
@@ -120,21 +117,20 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var existe = await context.Turno.AnyAsync(x => x.Id == id);
+            var existe = await repositorio.Existe(id);
 
-            if (!existe)
+            if (!existe == null)
             {
-                return NotFound($"El turno {id}, no existe");
+                return NotFound($"El Turno {id} no encontrado");
             }
-
-            Turno entidadBorrar = new Turno();
-            entidadBorrar.Id = id;
-
-            context.Remove(entidadBorrar);
-
-            await context.SaveChangesAsync();
-
-            return Ok();
+            if (await repositorio.Borrar(id))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
         #endregion
     }

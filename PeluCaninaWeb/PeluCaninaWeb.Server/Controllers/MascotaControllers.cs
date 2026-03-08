@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PeluCaninaWeb.BD.Data;
 using PeluCaninaWeb.BD.Data.Entity;
+using PeluCaninaWeb.Server.Repositorio;
 using PeluCaninaWeb.Shared.DTO;
 
 namespace PeluCaninaWeb.Server.Controllers
@@ -12,15 +13,18 @@ namespace PeluCaninaWeb.Server.Controllers
 
     public class MascotaControllers : ControllerBase
     {
-        private readonly Context context;
+        private readonly IMascotaRepositorio repositorio;
+
+        //private readonly Context context;
         private readonly IMapper mapper;
 
 
         #region constructor
-        public MascotaControllers(Context context, 
+        public MascotaControllers(IMascotaRepositorio repositorio,
                                   IMapper mapper)
         {
-            this.context = context;
+            this.repositorio = repositorio;
+            //this.context = context;
             this.mapper = mapper;
         }
         #endregion
@@ -29,7 +33,7 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Mascota>>> Get()
         {
-            return await context.Mascota.ToListAsync();
+            return await repositorio.Select();
         }
         #endregion
 
@@ -37,8 +41,7 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Mascota>> Get(int id)
         {
-            Mascota? pepe = await context.Mascota
-                .FirstOrDefaultAsync(x => x.Id == id);
+            Mascota? pepe = await repositorio.SelectById(id);
 
             if (pepe == null)
             {
@@ -58,25 +61,16 @@ namespace PeluCaninaWeb.Server.Controllers
                 Mascota entidad = mapper.Map<Mascota>(entidadDTO);
 
 
-                //Mascota entidad = new Mascota();
 
-                //entidad.Nombre = entidadDTO.Nombre;
-                //entidad.Edad = entidadDTO.Edad;
-                //entidad.Peso = entidadDTO.Peso;
-                //entidad.Descripcion = entidadDTO.Descripcion;
-                //entidad.Especie = entidadDTO.Especie;
-                //entidad.Raza = entidadDTO.Raza;
-
-
-                context.Mascota.Add(entidad);
-                await context.SaveChangesAsync();
-                return entidad.Id;
+                return await repositorio.Insert(entidad);
             }
             catch (Exception err)
             {
 
                 return BadRequest(err.Message);
             }
+
+
 
         }
         #endregion
@@ -92,12 +86,11 @@ namespace PeluCaninaWeb.Server.Controllers
 
 
             //expresión lambda para buscar el id
-            var dammy = await context.Mascota.
-                Where(e => e.Id == id).FirstOrDefaultAsync();
+            var dammy = await repositorio.SelectById(id);
 
             if (dammy == null)
             {
-                return NotFound("Servicio no encontrada");
+                return NotFound("Mascota no encontrada");
             }
 
             dammy.Nombre = entidad.Nombre;
@@ -107,11 +100,11 @@ namespace PeluCaninaWeb.Server.Controllers
             dammy.Especie = entidad.Especie;
             dammy.Raza = entidad.Raza;
 
-
             try
             {
-                context.Mascota.Update(dammy);
-                await context.SaveChangesAsync();
+                await repositorio.Update(id, dammy);
+
+
                 return Ok();
             }
             catch (Exception err)
@@ -127,21 +120,20 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var existe = await context.Mascota.AnyAsync(x => x.Id == id);
+            var existe = await repositorio.Existe(id);
 
-            if (!existe)
+            if (!existe == null)
             {
-                return NotFound($"La mascota {id}, no existe");
+                return NotFound($"La mascota {id} no encontrado");
             }
-
-            Mascota entidadBorrar = new Mascota();
-            entidadBorrar.Id = id;
-
-            context.Remove(entidadBorrar);
-
-            await context.SaveChangesAsync();
-
-            return Ok();
+            if (await repositorio.Borrar(id))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
         #endregion
     }

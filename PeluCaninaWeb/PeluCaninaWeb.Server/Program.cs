@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PeluCaninaWeb.BD.Data;
+using PeluCaninaWeb.BD.Data.Entity;
+using PeluCaninaWeb.Server.Repositorio;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,15 @@ builder.Services.AddDbContext<Context>(op => op.UseSqlServer("name=conn"));
 
 #region AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));
+#endregion
+
+//instancia de los repositorios de las entidades
+#region inyeccion (instancia) de interfaces de repositorios de las entidades
+builder.Services.AddScoped<IMascotaRepositorio, MascotaRepositorio>();
+builder.Services.AddScoped<IPromocionRepositorio, PromocionRepositorio>();
+builder.Services.AddScoped<IServicioRepositorio, ServicioRepositorio>();
+builder.Services.AddScoped<ITurnoRepositorio, TurnoRepositorio>();
+builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 #endregion
 
 var app = builder.Build();

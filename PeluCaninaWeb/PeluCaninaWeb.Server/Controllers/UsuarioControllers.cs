@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using PeluCaninaWeb.BD.Data;
 using PeluCaninaWeb.BD.Data.Entity;
+using PeluCaninaWeb.Server.Repositorio;
 using PeluCaninaWeb.Shared.DTO;
 
 namespace PeluCaninaWeb.Server.Controllers
@@ -13,14 +14,18 @@ namespace PeluCaninaWeb.Server.Controllers
 
     public class UsuarioControllers : ControllerBase
     {
-        private readonly Context context;
+        private readonly IUsuarioRepositorio repositorio;
+
+        //private readonly Context context;
         private readonly IMapper mapper;
 
 
         #region constructor
-        public UsuarioControllers(Context context, IMapper mapper)
+        public UsuarioControllers(IUsuarioRepositorio repositorio, 
+                                  IMapper mapper)
         {
-            this.context = context;
+            this.repositorio = repositorio;
+            //this.context = context;
             this.mapper = mapper;
         }
         #endregion
@@ -29,7 +34,7 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Usuario>>> Get()
         {
-            return await context.Usuario.ToListAsync();
+            return await repositorio.Select();
         }
         #endregion
 
@@ -37,8 +42,7 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Usuario>> Get(int id)
         {
-            Usuario? pepe = await context.Usuario
-                .FirstOrDefaultAsync(x => x.Id == id);
+            Usuario? pepe = await repositorio.SelectById(id);
 
             if (pepe == null)
             {
@@ -57,18 +61,9 @@ namespace PeluCaninaWeb.Server.Controllers
             {
                 Usuario entidad = mapper.Map<Usuario>(entidadDTO);
 
-                //Usuario entidad = new Usuario();
 
-                //entidad.Nombre = entidadDTO.Nombre;
-                //entidad.Apellido = entidadDTO.Apellido;
-                //entidad.Email = entidadDTO.Email;
-                //entidad.Contrasenia = entidadDTO.Contrasenia;
-                //entidad.Telefono = entidadDTO.Telefono;
-                //entidad.Rol = entidadDTO.Rol;
-
-                context.Usuario.Add(entidad);
-                await context.SaveChangesAsync();
-                return entidad.Id;
+                
+                return await repositorio.Insert(entidad);
             }
             catch (Exception err)
             {
@@ -92,8 +87,7 @@ namespace PeluCaninaWeb.Server.Controllers
 
 
             //expresión lambda para buscar el id
-            var dammy = await context.Usuario.
-                Where(e => e.Id == id).FirstOrDefaultAsync();
+            var dammy = await repositorio.SelectById(id);
 
             if (dammy == null)
             {
@@ -109,8 +103,9 @@ namespace PeluCaninaWeb.Server.Controllers
 
             try
             {
-                context.Usuario.Update(dammy);
-                await context.SaveChangesAsync();
+                await repositorio.Update(id, dammy);
+
+                
                 return Ok();
             }
             catch (Exception err)
@@ -126,21 +121,20 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var existe = await context.Usuario.AnyAsync(x => x.Id == id);
-
-            if (!existe)
+            var existe = await repositorio.Existe(id);
+            
+            if (!existe == null)
             {
-                return NotFound($"El usuario {id}, no existe");
+                return NotFound($"El Usuario {id} no encontrado");
             }
-
-            Usuario entidadBorrar = new Usuario();
-            entidadBorrar.Id = id;
-
-            context.Remove(entidadBorrar);
-
-            await context.SaveChangesAsync();
-
-            return Ok();
+            if (await repositorio.Borrar(id))
+            {
+                return Ok();
+            }
+            else 
+            {
+                return BadRequest();
+            }
         }
         #endregion
 
