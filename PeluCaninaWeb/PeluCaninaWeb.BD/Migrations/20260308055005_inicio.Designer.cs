@@ -12,8 +12,8 @@ using PeluCaninaWeb.BD.Data;
 namespace PeluCaninaWeb.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20260307081612_Inicio")]
-    partial class Inicio
+    [Migration("20260308055005_inicio")]
+    partial class inicio
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
