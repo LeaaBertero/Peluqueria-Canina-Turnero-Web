@@ -15,10 +15,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<Context>(op => op.UseSqlServer("name=conn"));
 #endregion
 
-//AutoMapper
-//#region AutoMapper
-//builder.Services.AddAutoMapper(typeof(Program));
-//#endregion
+
+#region AutoMapper
+builder.Services.AddAutoMapper(typeof(Program));
+#endregion
 
 var app = builder.Build();
 

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PeluCaninaWeb.BD.Data;
 using PeluCaninaWeb.BD.Data.Entity;
+using PeluCaninaWeb.Shared.DTO;
 
 namespace PeluCaninaWeb.Server.Controllers
 {
@@ -44,11 +45,21 @@ namespace PeluCaninaWeb.Server.Controllers
 
         #region Metodo Post
         [HttpPost]
-        public async Task<ActionResult<int>> Post(Mascota entidad)
+        public async Task<ActionResult<int>> Post(CrearMascotaDTO entidadDTO)
         {
 
             try
             {
+                Mascota entidad = new Mascota();
+
+                entidad.Nombre = entidadDTO.Nombre;
+                entidad.Edad = entidadDTO.Edad;
+                entidad.Peso = entidadDTO.Peso;
+                entidad.Descripcion = entidadDTO.Descripcion;
+                entidad.Especie = entidadDTO.Especie;
+                entidad.Raza = entidadDTO.Raza;
+
+
                 context.Mascota.Add(entidad);
                 await context.SaveChangesAsync();
                 return entidad.Id;
