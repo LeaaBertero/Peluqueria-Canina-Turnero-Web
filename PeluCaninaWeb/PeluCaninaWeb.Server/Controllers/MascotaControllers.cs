@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PeluCaninaWeb.BD.Data;
 using PeluCaninaWeb.BD.Data.Entity;
@@ -12,11 +13,13 @@ namespace PeluCaninaWeb.Server.Controllers
     public class MascotaControllers : ControllerBase
     {
         private readonly Context context;
+        private readonly Mapper mapper;
 
         #region constructor
-        public MascotaControllers(Context context)
+        public MascotaControllers(Context context, Mapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
         #endregion
 
@@ -50,14 +53,17 @@ namespace PeluCaninaWeb.Server.Controllers
 
             try
             {
-                Mascota entidad = new Mascota();
+                Mascota entidad = mapper.Map<Mascota>(entidadDTO);
 
-                entidad.Nombre = entidadDTO.Nombre;
-                entidad.Edad = entidadDTO.Edad;
-                entidad.Peso = entidadDTO.Peso;
-                entidad.Descripcion = entidadDTO.Descripcion;
-                entidad.Especie = entidadDTO.Especie;
-                entidad.Raza = entidadDTO.Raza;
+
+                //Mascota entidad = new Mascota();
+
+                //entidad.Nombre = entidadDTO.Nombre;
+                //entidad.Edad = entidadDTO.Edad;
+                //entidad.Peso = entidadDTO.Peso;
+                //entidad.Descripcion = entidadDTO.Descripcion;
+                //entidad.Especie = entidadDTO.Especie;
+                //entidad.Raza = entidadDTO.Raza;
 
 
                 context.Mascota.Add(entidad);
