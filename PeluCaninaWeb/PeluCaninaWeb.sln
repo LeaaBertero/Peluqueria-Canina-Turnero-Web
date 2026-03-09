@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeluCaninaWeb.Server", "Pel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeluCaninaWeb.Shared", "PeluCaninaWeb.Shared\PeluCaninaWeb.Shared.csproj", "{8C7FEE00-714D-4A42-B026-F2023BE9B5F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeluCaninaWeb.Client", "PeluCaninaWeb.Client\PeluCaninaWeb.Client.csproj", "{9AAF57B0-8805-40DA-856A-7BA56A0AE230}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{8C7FEE00-714D-4A42-B026-F2023BE9B5F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C7FEE00-714D-4A42-B026-F2023BE9B5F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C7FEE00-714D-4A42-B026-F2023BE9B5F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9AAF57B0-8805-40DA-856A-7BA56A0AE230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9AAF57B0-8805-40DA-856A-7BA56A0AE230}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9AAF57B0-8805-40DA-856A-7BA56A0AE230}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9AAF57B0-8805-40DA-856A-7BA56A0AE230}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

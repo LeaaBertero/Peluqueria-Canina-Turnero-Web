@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PeluCaninaWeb.BD\PeluCaninaWeb.BD.csproj" />
-    <ProjectReference Include="..\PeluCaninaWeb.Client\PeluCaninaWeb.Client.csproj" />
     <ProjectReference Include="..\PeluCaninaWeb.Shared\PeluCaninaWeb.Shared.csproj" />
   </ItemGroup>
 
