@@ -1,21 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using PeluCaninaWeb.BD.Data;
-using PeluCaninaWeb.BD.Data.Entity;
-using PeluCaninaWeb.Server.Repositorio;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-
-#region codigo para ignorar ciclos
-//-----------------------------------------------------------------------------
-builder.Services.AddControllersWithViews().AddJsonOptions(x =>
-    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-//-----------------------------------------------------------------------------
-#endregion
-
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
 
 // Add services to the container.
 
@@ -24,23 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-#region ConnectionString
 builder.Services.AddDbContext<Context>(op => op.UseSqlServer("name=conn"));
-#endregion
-
-
-#region AutoMapper
-builder.Services.AddAutoMapper(typeof(Program));
-#endregion
-
-//instancia de los repositorios de las entidades
-#region inyeccion (instancia) de interfaces de repositorios de las entidades
-builder.Services.AddScoped<IMascotaRepositorio, MascotaRepositorio>();
-builder.Services.AddScoped<IPromocionRepositorio, PromocionRepositorio>();
-builder.Services.AddScoped<IServicioRepositorio, ServicioRepositorio>();
-builder.Services.AddScoped<ITurnoRepositorio, TurnoRepositorio>();
-builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
-#endregion
 
 var app = builder.Build();
 
@@ -52,13 +22,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-//app.UseBlazorFrameworkFiles();
-//app.UseStaticFiles();
-//app.UseRouting();
-//app.MapRazorPages();
-
-//app.MapFallbackToFile("/index.html");
 
 app.UseAuthorization();
 
