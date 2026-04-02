@@ -12,7 +12,7 @@ using PeluCaninaWeb.BD.Data;
 namespace PeluCaninaWeb.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20260329013345_ini")]
+    [Migration("20260329185930_ini")]
     partial class ini
     {
         /// <inheritdoc />

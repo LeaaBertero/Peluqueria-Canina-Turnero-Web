@@ -18,10 +18,10 @@ namespace PeluCaninaWeb.BD.Data.Entity
         public int MascotaId { get; set; }
         #endregion
 
+        #region atributos
         [Required(ErrorMessage = "La fecha del turno es obligatoria")]        
         public DateTime FechaHora { get; set; }
 
-        #region atributos
         public enum Estado { Disponible, NoDisponible  }
 
         [Required(ErrorMessage = "El nombre es obligatorio")]
