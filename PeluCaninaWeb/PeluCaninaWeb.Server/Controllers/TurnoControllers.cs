@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PeluCaninaWeb.BD.Data;
 using PeluCaninaWeb.BD.Data.Entity;
@@ -12,10 +13,12 @@ namespace PeluCaninaWeb.Server.Controllers
     public class TurnoControllers : ControllerBase
     {
         private readonly Context context;
+        private readonly IMapper mapper;
 
-        public TurnoControllers(Context context)
+        public TurnoControllers(Context context, IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
 
         #region Método Get
@@ -47,10 +50,12 @@ namespace PeluCaninaWeb.Server.Controllers
         {
             try
             {
-                Turno entidad = new Turno();
+                //Turno entidad = new Turno();
 
-                entidad.FechaHora = entidadDTO.FechaHora;
-                entidad.Nota = entidadDTO.Nota;
+                //entidad.FechaHora = entidadDTO.FechaHora;
+                //entidad.Nota = entidadDTO.Nota;
+
+                Turno entidad = mapper.Map<Turno>(entidadDTO);
 
                 context.Turno.Add(entidad);
                 await context.SaveChangesAsync();

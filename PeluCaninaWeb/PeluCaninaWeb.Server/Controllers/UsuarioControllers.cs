@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PeluCaninaWeb.BD.Data;
 using PeluCaninaWeb.BD.Data.Entity;
@@ -12,11 +13,13 @@ namespace PeluCaninaWeb.Server.Controllers
     public class UsuarioControllers : ControllerBase
     {
         private readonly Context context;
+        private readonly IMapper mapper;
 
         #region constructor
-        public UsuarioControllers(Context context)
+        public UsuarioControllers(Context context, IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
         #endregion
 
@@ -49,14 +52,16 @@ namespace PeluCaninaWeb.Server.Controllers
         {
             try
             {
-                Usuario entidad = new Usuario();
+                //Usuario entidad = new Usuario();
 
-                entidad.Nombre = entidadDTO.Nombre;
-                entidad.Apellido = entidadDTO.Apellido;
-                entidad.Email = entidadDTO.Email;
-                entidad.Contrasenia = entidadDTO.Contrasenia;
-                entidad.Telefono = entidadDTO.Telefono;
-                entidad.Rol = entidadDTO.Rol;
+                //entidad.Nombre = entidadDTO.Nombre;
+                //entidad.Apellido = entidadDTO.Apellido;
+                //entidad.Email = entidadDTO.Email;
+                //entidad.Contrasenia = entidadDTO.Contrasenia;
+                //entidad.Telefono = entidadDTO.Telefono;
+                //entidad.Rol = entidadDTO.Rol;
+
+                Usuario entidad = mapper.Map<Usuario>(entidadDTO);
 
                 context.Usuario.Add(entidad);
                 await context.SaveChangesAsync();

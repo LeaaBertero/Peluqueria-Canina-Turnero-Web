@@ -9,8 +9,11 @@ namespace PeluCaninaWeb.BD.Data.Entity
 {
     public class Promocion : EntityBase
     {
+        #region clave primaria
         public int IdPromocion { get; set; }
+        #endregion
 
+        #region atributos de la entidad
         [Required(ErrorMessage = "El titulo es obligatorio")]
         [MaxLength(50, ErrorMessage = "Maximo número de caracteres {1}")]
         public string? Titulo { get; set; }
@@ -26,5 +29,6 @@ namespace PeluCaninaWeb.BD.Data.Entity
         public DateOnly FechaFin { get; set; }
 
         public bool Activo { get; set; }
+        #endregion
     }
 }

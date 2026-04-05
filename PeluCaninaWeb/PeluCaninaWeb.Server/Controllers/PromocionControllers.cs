@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PeluCaninaWeb.BD.Data;
 using PeluCaninaWeb.BD.Data.Entity;
@@ -12,10 +13,12 @@ namespace PeluCaninaWeb.Server.Controllers
     public class PromocionControllers : ControllerBase
     {
         private readonly Context context;
+        private readonly IMapper mapper;
 
-        public PromocionControllers(Context context)
+        public PromocionControllers(Context context, IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
 
         #region Método Get
@@ -48,12 +51,14 @@ namespace PeluCaninaWeb.Server.Controllers
             try
             {
 
-                Promocion entidad = new Promocion();
+                //Promocion entidad = new Promocion();
 
-                entidad.Titulo = entidadDTO.Titulo;
-                entidad.Descripcion = entidadDTO.Descripcion;
-                entidad.FechaInicio = entidadDTO.FechaInicio;
-                entidad.FechaFin = entidadDTO.FechaFin;
+                //entidad.Titulo = entidadDTO.Titulo;
+                //entidad.Descripcion = entidadDTO.Descripcion;
+                //entidad.FechaInicio = entidadDTO.FechaInicio;
+                //entidad.FechaFin = entidadDTO.FechaFin;
+
+                Promocion entidad = mapper.Map<Promocion>(entidadDTO);
 
                 context.Promocion.Add(entidad);
                 await context.SaveChangesAsync();

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PeluCaninaWeb.BD.Data.Entity
+namespace PeluCaninaWeb.Shared.DTO
 {
     public class CrearMascotaDTO
     {

@@ -1,5 +1,8 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using PeluCaninaWeb.BD.Data;
+using PeluCaninaWeb.Server.Util;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +13,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+#region conexion string con la base de datos
 builder.Services.AddDbContext<Context>(op => op.UseSqlServer("name=conn"));
+#endregion
+
+#region AutioMapper
+builder.Services.AddAutoMapper(typeof(Program));
+//builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
+#endregion
+
 
 var app = builder.Build();
 

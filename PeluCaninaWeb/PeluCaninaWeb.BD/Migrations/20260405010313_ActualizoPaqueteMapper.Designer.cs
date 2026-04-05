@@ -12,8 +12,8 @@ using PeluCaninaWeb.BD.Data;
 namespace PeluCaninaWeb.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20260329185930_ini")]
-    partial class ini
+    [Migration("20260405010313_ActualizoPaqueteMapper")]
+    partial class ActualizoPaqueteMapper
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

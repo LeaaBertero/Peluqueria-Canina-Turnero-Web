@@ -9,8 +9,11 @@ namespace PeluCaninaWeb.BD.Data.Entity
 {
     public class Servicio : EntityBase
     {
+        #region clave primaria
         public int ServicioId { get; set; }
+        #endregion
 
+        #region atributos de la entidad
         [Required(ErrorMessage = "El nombre es obligatorio")]
         [MaxLength(50, ErrorMessage = "Maximo número de caracteres {1}")]
         public string? Nombre { get; set; }
@@ -21,5 +24,6 @@ namespace PeluCaninaWeb.BD.Data.Entity
 
         [Required(ErrorMessage = "El precio del servicio es obligatorio")]
         public decimal Precio { get; set; }
+        #endregion
     }
 }
