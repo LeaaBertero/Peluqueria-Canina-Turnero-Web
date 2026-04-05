@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PeluCaninaWeb.BD.Data
 {
-    public class EntityBase 
+    public class EntityBase : IEntityBase
     {
         public int Id { get; set; }
     }
