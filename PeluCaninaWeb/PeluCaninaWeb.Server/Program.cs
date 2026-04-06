@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PeluCaninaWeb.BD.Data;
+using PeluCaninaWeb.Server.Repositorio;
 using PeluCaninaWeb.Server.Util;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,14 @@ builder.Services.AddAutoMapper(typeof(Program));
 //builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 #endregion
 
+#region Inyección de dependencias de la interfaz IRepositorio
+builder.Services.AddScoped<IMascotaRepositorio, MascotaRepositorio>();  
+builder.Services.AddScoped<IPromocionRepositorio, PromocionRepositorio>();
+builder.Services.AddScoped<IServicioRepositorio, ServicioRepositorio>();
+builder.Services.AddScoped<ITurnoRepositorio, TurnoRepositorio>();
+builder.Services.AddScoped<ITurnoServicioRepositorio, TurnoServicioRepositorio>();
+builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+#endregion
 
 var app = builder.Build();
 

@@ -1,6 +1,6 @@
 ﻿using PeluCaninaWeb.BD.Data;
 
-namespace PeluCaninaWeb.Server.Repositorio
+namespace LaNonnaPersonal.Server.Repositorio
 {
     public interface IRepositorio<E> where E : class, IEntityBase
     {

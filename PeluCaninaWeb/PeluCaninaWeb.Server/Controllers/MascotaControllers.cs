@@ -15,7 +15,8 @@ namespace PeluCaninaWeb.Server.Controllers
         private readonly Context context;
         private readonly IMapper mapper;
 
-        public MascotaControllers(Context context, IMapper mapper)
+        public MascotaControllers(Context context, 
+                                  IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;

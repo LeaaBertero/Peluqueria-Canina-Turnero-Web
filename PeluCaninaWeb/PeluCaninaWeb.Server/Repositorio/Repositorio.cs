@@ -1,16 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PeluCaninaWeb.BD.Data;
+﻿using PeluCaninaWeb.BD.Data;
+using PeluCaninaWeb.BD.Data.Entity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using LaNonnaPersonal.Server.Repositorio;
 
 namespace PeluCaninaWeb.Server.Repositorio
 {
-    public class Repositorioo<E> : IRepositorio<E> where E : class, IEntityBase
+    public class Repositorio<E> : IRepositorio<E> 
+                    where E : class, IEntityBase
     {
         private readonly Context context;
 
-        public Repositorioo(Context context)
+        #region Constructor Repositorio
+        public Repositorio(Context context)
         {
             this.context = context;
         }
+        #endregion
 
         #region Método Get
         public async Task<List<E>> Select()
@@ -98,5 +104,6 @@ namespace PeluCaninaWeb.Server.Repositorio
             return true;
         }
         #endregion
+
     }
 }

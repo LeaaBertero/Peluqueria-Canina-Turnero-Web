@@ -15,7 +15,8 @@ namespace PeluCaninaWeb.Server.Controllers
         private readonly Context context;
         private readonly IMapper mapper;
 
-        public PromocionControllers(Context context, IMapper mapper)
+        public PromocionControllers(Context context, 
+                                    IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;
