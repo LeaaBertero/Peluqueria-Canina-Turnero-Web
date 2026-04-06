@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using PeluCaninaWeb.BD.Data;
 using PeluCaninaWeb.BD.Data.Entity;
 using PeluCaninaWeb.Server.Repositorio;
@@ -14,12 +13,13 @@ namespace PeluCaninaWeb.Server.Controllers
 
     public class UsuarioControllers : ControllerBase
     {
-
+        #region Campos privados
         private readonly IUsuarioRepositorio repositorio;
         private readonly IMapper mapper;
+        #endregion
 
         #region constructor
-        public UsuarioControllers(IUsuarioRepositorio repositorio,
+        public UsuarioControllers(IUsuarioRepositorio repositorio, 
                                   IMapper mapper)
         {
 
@@ -51,22 +51,25 @@ namespace PeluCaninaWeb.Server.Controllers
         }
         #endregion
 
+       
+
         #region Método Post
         [HttpPost]
         public async Task<ActionResult<int>> Post(CrearUsuarioDTO entidadDTO)
         {
             try
             {
+               
 
                 Usuario entidad = mapper.Map<Usuario>(entidadDTO);
 
                 return await repositorio.Insert(entidad);
 
             }
-            catch (Exception e)
+            catch (Exception err)
             {
 
-                return BadRequest(e.Message);
+                return BadRequest(err.Message);
             }
         }
         #endregion
@@ -92,7 +95,10 @@ namespace PeluCaninaWeb.Server.Controllers
             dammy.Email = entidad.Email;
             dammy.Contrasenia = entidad.Contrasenia;
             dammy.Telefono = entidad.Telefono;
-            //dammy.Rol = entidad.Rol;
+            dammy.Rol = entidad.Rol;
+           
+
+
 
             try
             {
@@ -107,18 +113,18 @@ namespace PeluCaninaWeb.Server.Controllers
 
                 return BadRequest(e.Message);
             }
-            #endregion
         }
+        #endregion
 
         #region Método Delete
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var existe = await repositorio.Existe(id);
+            var existe = repositorio.Existe(id);
 
-            if (!existe)
+            if (!await existe) //await existe
             {
-                return NotFound($"El usuario {id} que se intenta borrar, no existe.");
+                return NotFound($"El usuario {id} no existe.");
             }
             if (await repositorio.Delete(id))
             {
@@ -126,14 +132,10 @@ namespace PeluCaninaWeb.Server.Controllers
             }
             else
             {
-                return BadRequest($"El usuario {id} no se pudo borrar.");
+                return BadRequest();
             }
-
-
-
         }
         #endregion
-
 
     }
 }
