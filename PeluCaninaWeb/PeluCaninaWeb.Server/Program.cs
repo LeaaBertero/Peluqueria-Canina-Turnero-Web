@@ -29,7 +29,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 //builder.Services.AddScoped<IServicioRepositorio, ServicioRepositorio>();
 //builder.Services.AddScoped<ITurnoRepositorio, TurnoRepositorio>();
 //builder.Services.AddScoped<ITurnoServicioRepositorio, TurnoServicioRepositorio>();
-//builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 #endregion
 
 var app = builder.Build();

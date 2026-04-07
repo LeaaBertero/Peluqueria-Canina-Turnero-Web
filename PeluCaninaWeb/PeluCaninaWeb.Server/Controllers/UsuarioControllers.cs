@@ -11,28 +11,28 @@ namespace PeluCaninaWeb.Server.Controllers
     [ApiController]
     [Route("api/Usuario")]
 
+
     public class UsuarioControllers : ControllerBase
     {
         #region Campos privados
-        private readonly Context context;
+        private readonly IUsuarioRepositorio repositorio;
         private readonly IMapper mapper;
         #endregion
 
         #region constructor
-        public UsuarioControllers(Context context, 
+        public UsuarioControllers(IUsuarioRepositorio repositorio, 
                                   IMapper mapper)
         {
-            this.context = context;
+            this.repositorio = repositorio;
             this.mapper = mapper;
         }
         #endregion
-
 
         #region Método Get
         [HttpGet]
         public async Task<ActionResult<List<Usuario>>> Get()
         {
-            return await context.Usuario.ToListAsync();
+            return await repositorio.Select();
         }
         #endregion
 
@@ -40,7 +40,7 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Usuario>> Get(int id)
         {
-            var dammy = await context.Usuario.FirstOrDefaultAsync(x => x.Id == id);
+            var dammy = await repositorio.SelectById(id);
 
             if (dammy == null)
             {
@@ -51,31 +51,41 @@ namespace PeluCaninaWeb.Server.Controllers
         }
         #endregion
 
+        #region Método Get Existe por {id}
+        [HttpGet("Existe/{id:int}")]
+        public async Task<ActionResult<bool>> Existe(int id)
+        {
+            var existe = await repositorio.Existe(id);
+            return existe;
+        }
+        #endregion
+
         #region Método Post
         [HttpPost]
         public async Task<ActionResult<int>> Post(CrearUsuarioDTO entidadDTO)
         {
             try
             {
-                //Mascota entidad = new Mascota();
+                //Usuario entidad = new Usuario();
 
                 //entidad.Nombre = entidadDTO.Nombre;
-                //entidad.Edad = entidadDTO.Edad;
-                //entidad.Peso = entidadDTO.Peso;
-                //entidad.Descripcion = entidadDTO.Descripcion;
-                //entidad.Especie = entidadDTO.Especie;
-                //entidad.Raza = entidadDTO.Raza;
+                //entidad.Apellido = entidadDTO.Apellido;
+                //entidad.Email = entidadDTO.Email;
+                //entidad.Contraseña = entidadDTO.Contraseña;
+                //entidad.Teléfono = entidadDTO.Teléfono;
+                //entidad.Dirección = entidadDTO.Dirección;
+                //entidad.Cuit_Cuil = entidadDTO.Cuit_Cuil;
+                //entidad.Fecha_Registro = entidadDTO.Fecha_Registro;
 
                 Usuario entidad = mapper.Map<Usuario>(entidadDTO);
 
-                context.Usuario.Add(entidad);
-                await context.SaveChangesAsync();
-                return entidad.Id;
+                return await repositorio.Insert(entidad);
+
             }
-            catch (Exception e)
+            catch (Exception err)
             {
 
-                return BadRequest(e.Message);
+                return BadRequest(err.Message);
             }
         }
         #endregion
@@ -89,12 +99,11 @@ namespace PeluCaninaWeb.Server.Controllers
                 return BadRequest("Datos incorrectos");
             }
 
-            var dammy = await context.Usuario.
-                Where(e => e.Id == id).FirstOrDefaultAsync();
+            var dammy = await repositorio.SelectById(id);
 
             if (dammy == null)
             {
-                return NotFound("Usuario no encontrado");
+                return NotFound("No se encontró el registro");
             }
 
             dammy.Nombre = entidad.Nombre;
@@ -103,13 +112,15 @@ namespace PeluCaninaWeb.Server.Controllers
             dammy.Contrasenia = entidad.Contrasenia;
             dammy.Telefono = entidad.Telefono;
             dammy.Rol = entidad.Rol;
+           
 
 
 
             try
             {
-                context.Usuario.Update(dammy);
-                await context.SaveChangesAsync();
+                await repositorio.Update(id, dammy);
+
+
                 return Ok();
 
             }
@@ -125,22 +136,20 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var existe = await context.Usuario.AnyAsync(x => x.Id == id);
+            var existe = repositorio.Existe(id);
 
-            if (!existe)
+            if (!await existe) //await existe
             {
-                return NotFound($"La mascota {id} no existe.");
+                return NotFound($"El usuario {id} no existe.");
             }
-
-            Usuario EntidadAborrar = new Usuario();
-
-            EntidadAborrar.Id = id;
-
-            context.Remove(EntidadAborrar);
-
-            await context.SaveChangesAsync();
-
-            return Ok($"El usuario {id} fue eliminada correctamente.");
+            if (await repositorio.Delete(id))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
         #endregion
 
