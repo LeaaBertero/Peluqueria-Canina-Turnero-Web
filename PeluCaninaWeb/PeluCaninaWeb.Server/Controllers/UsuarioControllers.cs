@@ -14,25 +14,25 @@ namespace PeluCaninaWeb.Server.Controllers
     public class UsuarioControllers : ControllerBase
     {
         #region Campos privados
-        private readonly IUsuarioRepositorio repositorio;
+        private readonly Context context;
         private readonly IMapper mapper;
         #endregion
 
         #region constructor
-        public UsuarioControllers(IUsuarioRepositorio repositorio, 
+        public UsuarioControllers(Context context, 
                                   IMapper mapper)
         {
-
-            this.repositorio = repositorio;
+            this.context = context;
             this.mapper = mapper;
         }
         #endregion
+
 
         #region Método Get
         [HttpGet]
         public async Task<ActionResult<List<Usuario>>> Get()
         {
-            return await repositorio.Select();
+            return await context.Usuario.ToListAsync();
         }
         #endregion
 
@@ -40,7 +40,7 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Usuario>> Get(int id)
         {
-            var dammy = await repositorio.SelectById(id);
+            var dammy = await context.Usuario.FirstOrDefaultAsync(x => x.Id == id);
 
             if (dammy == null)
             {
@@ -51,25 +51,31 @@ namespace PeluCaninaWeb.Server.Controllers
         }
         #endregion
 
-       
-
         #region Método Post
         [HttpPost]
         public async Task<ActionResult<int>> Post(CrearUsuarioDTO entidadDTO)
         {
             try
             {
-               
+                //Mascota entidad = new Mascota();
+
+                //entidad.Nombre = entidadDTO.Nombre;
+                //entidad.Edad = entidadDTO.Edad;
+                //entidad.Peso = entidadDTO.Peso;
+                //entidad.Descripcion = entidadDTO.Descripcion;
+                //entidad.Especie = entidadDTO.Especie;
+                //entidad.Raza = entidadDTO.Raza;
 
                 Usuario entidad = mapper.Map<Usuario>(entidadDTO);
 
-                return await repositorio.Insert(entidad);
-
+                context.Usuario.Add(entidad);
+                await context.SaveChangesAsync();
+                return entidad.Id;
             }
-            catch (Exception err)
+            catch (Exception e)
             {
 
-                return BadRequest(err.Message);
+                return BadRequest(e.Message);
             }
         }
         #endregion
@@ -83,11 +89,12 @@ namespace PeluCaninaWeb.Server.Controllers
                 return BadRequest("Datos incorrectos");
             }
 
-            var dammy = await repositorio.SelectById(id);
+            var dammy = await context.Usuario.
+                Where(e => e.Id == id).FirstOrDefaultAsync();
 
             if (dammy == null)
             {
-                return NotFound("No se encontró el registro");
+                return NotFound("Usuario no encontrado");
             }
 
             dammy.Nombre = entidad.Nombre;
@@ -96,15 +103,13 @@ namespace PeluCaninaWeb.Server.Controllers
             dammy.Contrasenia = entidad.Contrasenia;
             dammy.Telefono = entidad.Telefono;
             dammy.Rol = entidad.Rol;
-           
 
 
 
             try
             {
-                await repositorio.Update(id, dammy);
-
-
+                context.Usuario.Update(dammy);
+                await context.SaveChangesAsync();
                 return Ok();
 
             }
@@ -120,22 +125,26 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var existe = repositorio.Existe(id);
+            var existe = await context.Usuario.AnyAsync(x => x.Id == id);
 
-            if (!await existe) //await existe
+            if (!existe)
             {
-                return NotFound($"El usuario {id} no existe.");
+                return NotFound($"La mascota {id} no existe.");
             }
-            if (await repositorio.Delete(id))
-            {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
+
+            Usuario EntidadAborrar = new Usuario();
+
+            EntidadAborrar.Id = id;
+
+            context.Remove(EntidadAborrar);
+
+            await context.SaveChangesAsync();
+
+            return Ok($"El usuario {id} fue eliminada correctamente.");
         }
         #endregion
+
+
 
     }
 }

@@ -1,8 +1,5 @@
-﻿using PeluCaninaWeb.BD.Data;
-using PeluCaninaWeb.BD.Data.Entity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LaNonnaPersonal.Server.Repositorio;
+﻿using Microsoft.EntityFrameworkCore;
+using PeluCaninaWeb.BD.Data;
 
 namespace PeluCaninaWeb.Server.Repositorio
 {
@@ -11,7 +8,7 @@ namespace PeluCaninaWeb.Server.Repositorio
     {
         private readonly Context context;
 
-        #region Constructor Repositorio
+        #region constructor del repositorio
         public Repositorio(Context context)
         {
             this.context = context;
@@ -25,11 +22,13 @@ namespace PeluCaninaWeb.Server.Repositorio
         }
         #endregion
 
-        #region Existe for Id
-        public async Task<bool> Existe(int id)
+        #region SelectById
+        public async Task<E> SelectById(int id)
         {
-            var existe = await context.Set<E>().AnyAsync(x => x.Id == id);
-            return existe;
+            E? lean = await context.Set<E>().AsNoTracking() // AsNoTracking() == (Para evitar que no quede en memoria)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return lean;
         }
         #endregion
 
@@ -79,16 +78,6 @@ namespace PeluCaninaWeb.Server.Repositorio
         }
         #endregion
 
-        #region SelectById
-        public async Task<E> SelectById(int id)
-        {
-            E? lean = await context.Set<E>().AsNoTracking() // AsNoTracking() == (Para evitar que no quede en memoria)
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            return lean;
-        }
-        #endregion
-
         #region Borrar
         public async Task<bool> Delete(int id)
         {
@@ -104,6 +93,5 @@ namespace PeluCaninaWeb.Server.Repositorio
             return true;
         }
         #endregion
-
     }
 }
