@@ -3,7 +3,7 @@ using PeluCaninaWeb.BD.Data.Entity;
 
 namespace PeluCaninaWeb.Server.Repositorio
 {
-    public interface ITurnoServicioRepositorio : IRepositorio<Turno>
+    public interface ITurnoServicioRepositorio : IRepositorio<TurnoServicio>
     {
     }
 }
