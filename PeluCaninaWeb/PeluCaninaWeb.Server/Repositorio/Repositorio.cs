@@ -3,8 +3,7 @@ using PeluCaninaWeb.BD.Data;
 
 namespace PeluCaninaWeb.Server.Repositorio
 {
-    public class Repositorio<E> : IRepositorio<E> 
-                    where E : class, IEntityBase
+    public class Repositorio<E> : IRepositorio<E> where E : class, IEntityBase
     {
         private readonly Context context;
 
@@ -22,13 +21,11 @@ namespace PeluCaninaWeb.Server.Repositorio
         }
         #endregion
 
-        #region SelectById
-        public async Task<E> SelectById(int id)
+        #region Existe for Id
+        public async Task<bool> Existe(int id)
         {
-            E? lean = await context.Set<E>().AsNoTracking() // AsNoTracking() == (Para evitar que no quede en memoria)
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            return lean;
+            var existe = await context.Set<E>().AnyAsync(x => x.Id == id);
+            return existe;
         }
         #endregion
 
@@ -75,6 +72,16 @@ namespace PeluCaninaWeb.Server.Repositorio
 
                 throw e;
             }
+        }
+        #endregion
+
+        #region SelectById
+        public async Task<E> SelectById(int id)
+        {
+            E? lean = await context.Set<E>().AsNoTracking() // AsNoTracking() == (Para evitar que no quede en memoria)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return lean;
         }
         #endregion
 
