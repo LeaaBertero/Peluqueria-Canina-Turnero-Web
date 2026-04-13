@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PeluCaninaWeb.BD.Data;
 using PeluCaninaWeb.BD.Data.Entity;
+using PeluCaninaWeb.Server.Repositorio;
 using PeluCaninaWeb.Shared.DTO;
 
 namespace PeluCaninaWeb.Server.Controllers
@@ -12,13 +13,16 @@ namespace PeluCaninaWeb.Server.Controllers
 
     public class TurnoControllers : ControllerBase
     {
-        private readonly Context context;
+        private readonly ITurnoRepositorio repositorio;
+
+        //private readonly Context context;
         private readonly IMapper mapper;
 
-        public TurnoControllers(Context context, 
+        public TurnoControllers(ITurnoRepositorio repositorio, 
                                 IMapper mapper)
         {
-            this.context = context;
+            //this.context = context;
+            this.repositorio = repositorio;
             this.mapper = mapper;
         }
 
@@ -26,7 +30,7 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Turno>>> Get()
         {
-            return await context.Turno.ToListAsync();
+            return await repositorio.Select();
         }
         #endregion
 
@@ -34,7 +38,7 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Turno>> Get(int id)
         {
-            var dammy = await context.Turno.FirstOrDefaultAsync(x => x.Id == id);
+            var dammy = await repositorio.SelectById(id);
 
             if (dammy == null)
             {
@@ -51,21 +55,26 @@ namespace PeluCaninaWeb.Server.Controllers
         {
             try
             {
-                //Turno entidad = new Turno();
+                //Usuario entidad = new Usuario();
 
-                //entidad.FechaHora = entidadDTO.FechaHora;
-                //entidad.Nota = entidadDTO.Nota;
+                //entidad.Nombre = entidadDTO.Nombre;
+                //entidad.Apellido = entidadDTO.Apellido;
+                //entidad.Email = entidadDTO.Email;
+                //entidad.Contraseña = entidadDTO.Contraseña;
+                //entidad.Teléfono = entidadDTO.Teléfono;
+                //entidad.Dirección = entidadDTO.Dirección;
+                //entidad.Cuit_Cuil = entidadDTO.Cuit_Cuil;
+                //entidad.Fecha_Registro = entidadDTO.Fecha_Registro;
 
                 Turno entidad = mapper.Map<Turno>(entidadDTO);
 
-                context.Turno.Add(entidad);
-                await context.SaveChangesAsync();
-                return entidad.Id;
+                return await repositorio.Insert(entidad);
+
             }
-            catch (Exception e)
+            catch (Exception err)
             {
 
-                return BadRequest(e.Message);
+                return BadRequest(err.Message);
             }
         }
         #endregion
@@ -79,8 +88,7 @@ namespace PeluCaninaWeb.Server.Controllers
                 return BadRequest("Datos incorrectos");
             }
 
-            var dammy = await context.Turno.
-                Where(e => e.Id == id).FirstOrDefaultAsync();
+            var dammy = await repositorio.SelectById(id);
 
             if (dammy == null)
             {
@@ -89,14 +97,16 @@ namespace PeluCaninaWeb.Server.Controllers
 
             dammy.FechaHora = entidad.FechaHora;
             dammy.Nota = entidad.Nota;
-          
             
+           
+
 
 
             try
             {
-                context.Turno.Update(dammy);
-                await context.SaveChangesAsync();
+                await repositorio.Update(id, dammy);
+
+
                 return Ok();
 
             }
@@ -112,22 +122,20 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var existe = await context.Turno.AnyAsync(x => x.Id == id);
+            var existe = repositorio.Existe(id);
 
-            if (!existe)
+            if (!await existe) //await existe
             {
                 return NotFound($"El turno {id} no existe.");
             }
-
-            Turno EntidadAborrar = new Turno();
-
-            EntidadAborrar.Id = id;
-
-            context.Remove(EntidadAborrar);
-
-            await context.SaveChangesAsync();
-
-            return Ok($"El turno {id} fue eliminado correctamente.");
+            if (await repositorio.Delete(id))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
         #endregion
     }
