@@ -1,9 +1,118 @@
 ﻿@page "/api/Usuario/Crear"
+@using PeluCaninaWeb.BD.Data.Entity
 @inject IHTTPServicio http;
 @inject NavigationManager navigationManager;
 
-<h3>CrearUsuario</h3>
+<!DOCTYPE html>
+<html class="@BodyClass">
+
+    <head>
+        <title>Registro de Usuario</title>
+    </head>
+
+    <body >
+
+        <header>
+            <h1 class="text-center mb-4">Registro de Usuario</h1>
+
+            <button class="btn btn-sm btn-outline-secondary mb-3" @onclick="ToggleDarkMode">
+                @(isDarkMode ? "🌙 Modo Claro" : "🌞 Modo Oscuro")
+            </button>
+
+            <EditForm Model="usuario" OnValidSubmit="Grabar" class="@FormClass">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <!-- Datos personales -->
+                <h5 class="mb-3">Datos personales</h5>
+                <div class="form-floating mb-3">
+                    <input type="text" @bind="usuario.Nombre" class="form-control @InputClass" id="nombre" placeholder="Nombre" />
+                    <label for="nombre">Nombre</label>
+                    <ValidationMessage For="@(() => usuario.Nombre)" />
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text" @bind="usuario.Apellido" class="form-control @InputClass" id="apellido" placeholder="Apellido" />
+                    <label for="apellido">Apellido</label>
+                    <ValidationMessage For="@(() => usuario.Apellido)" />
+                </div>
+
+                <!-- Credenciales -->
+                <h5 class="mb-3">Credenciales</h5>
+                <div class="form-floating mb-3">
+                    <input type="email" @bind="usuario.Email" class="form-control @InputClass" id="email" placeholder="E-mail" />
+                    <label for="email">E-mail</label>
+                    <ValidationMessage For="@(() => usuario.Email)" />
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="password" @bind="usuario.Contrasenia" class="form-control @InputClass" id="contraseña" placeholder="Contraseña" />
+                    <label for="contraseña">Contraseña</label>
+                    <ValidationMessage For="@(() => usuario.Contrasenia)" />
+                </div>
+
+                <!-- Contacto -->
+                <h5 class="mb-3">Contacto</h5>
+                <div class="form-floating mb-3">
+                    <input type="tel" @bind="usuario.Telefono" class="form-control @InputClass" id="telefono" placeholder="Teléfono" />
+                    <label for="telefono">Teléfono</label>
+                    <ValidationMessage For="@(() => usuario.Telefono)" />
+                </div>
+
+                <!-- Rol -->
+                <div class="form-check mb-3">
+                    <input type="checkbox" @bind="usuario.Rol" class="form-check-input" id="rol" />
+                    <label class="form-check-label" for="rol">Administrador</label>
+                    <ValidationMessage For="@(() => usuario.Rol)" />
+                </div>
+
+                <!-- Botones -->
+                <div class="d-flex justify-content-between mt-4">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-person-plus"></i> Registrar
+                    </button>
+                    <button class="btn btn-outline-secondary" type="button" @onclick="Cancelar">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </button>
+                </div>
+            </EditForm>
+        </header>
+
+        <main></main>
+
+        <footer class="mt-4">
+            <p>Peluqueria Canina - Gestión de turnos</p>
+        </footer>
+
+    </body>
+</html>
 
 @code {
+    private Usuario usuario = new Usuario();
+    private bool isDarkMode = false;
 
+    private string BodyClass => isDarkMode ? "bg-dark text-light" : "bg-light";
+    private string FormClass => isDarkMode ? "p-4 shadow rounded bg-dark text-light" : "p-4 shadow rounded bg-light";
+    private string InputClass => isDarkMode ? "bg-dark text-light" : "";
+
+    private async Task Grabar()
+    {
+        var httpRespuesta = await http.Post<Usuario>("api/Usuario", usuario);
+
+        if (httpRespuesta.Error)
+        {
+            var body = httpRespuesta.HttpResponseMessage;
+        }
+    }
+
+    private void Cancelar()
+    {
+        //vuelve a la pagina principal
+        navigationManager.NavigateTo("/");
+    }
+
+    private void ToggleDarkMode()
+    {
+        isDarkMode = !isDarkMode;
+    }
 }
