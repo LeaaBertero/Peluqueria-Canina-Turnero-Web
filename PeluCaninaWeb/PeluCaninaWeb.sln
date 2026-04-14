@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeluCaninaWeb.Server", "Pel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeluCaninaWeb.Shared", "PeluCaninaWeb.Shared\PeluCaninaWeb.Shared.csproj", "{BD0557A6-5168-43EB-BBF2-10D4BC92F708}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeluCaninaWeb.Client", "PeluCaninaWeb.Client\PeluCaninaWeb.Client.csproj", "{349B5432-20B8-4CDB-A3AB-31F4F22AFAFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{BD0557A6-5168-43EB-BBF2-10D4BC92F708}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD0557A6-5168-43EB-BBF2-10D4BC92F708}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD0557A6-5168-43EB-BBF2-10D4BC92F708}.Release|Any CPU.Build.0 = Release|Any CPU
+		{349B5432-20B8-4CDB-A3AB-31F4F22AFAFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{349B5432-20B8-4CDB-A3AB-31F4F22AFAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{349B5432-20B8-4CDB-A3AB-31F4F22AFAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{349B5432-20B8-4CDB-A3AB-31F4F22AFAFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

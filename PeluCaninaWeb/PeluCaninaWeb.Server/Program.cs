@@ -4,8 +4,22 @@ using Microsoft.Extensions.DependencyInjection;
 using PeluCaninaWeb.BD.Data;
 using PeluCaninaWeb.Server.Repositorio;
 using PeluCaninaWeb.Server.Util;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+#region codigo para ignorar ciclos
+//-----------------------------------------------------------------------------
+builder.Services.AddControllersWithViews().AddJsonOptions(x =>
+    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+//-----------------------------------------------------------------------------
+#endregion
+
+
+#region Client
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+#endregion
 
 // Add services to the container.
 
@@ -43,8 +57,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+#region Blazor
+app.UseBlazorFrameworkFiles();
+app.UseStaticFiles();
+app.UseRouting();
+app.MapRazorPages();
+#endregion
+
+
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapFallbackToFile("/index.html");
 
 app.Run();
