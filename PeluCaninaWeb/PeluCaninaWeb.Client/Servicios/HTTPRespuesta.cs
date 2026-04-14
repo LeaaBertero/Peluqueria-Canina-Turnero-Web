@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace LaNonnaPersonal.Client.Servicios
+namespace PeluCaninaWeb.Client.Servicios
 {
     public class HTTPRespuesta<T>
     {

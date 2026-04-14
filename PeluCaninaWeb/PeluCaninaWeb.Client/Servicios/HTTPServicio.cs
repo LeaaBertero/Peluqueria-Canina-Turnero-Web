@@ -1,8 +1,9 @@
 ﻿
+using PeluCaninaWeb.Client.Servicios;
 using System.Text;
 using System.Text.Json;
 
-namespace LaNonnaPersonal.Client.Servicios
+namespace PeluCaninaWeb.Client.Servicios
 {
     public class HTTPServicio : IHTTPServicio
     {

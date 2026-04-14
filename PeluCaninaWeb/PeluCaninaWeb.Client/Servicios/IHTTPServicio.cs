@@ -1,5 +1,5 @@
 ﻿
-namespace LaNonnaPersonal.Client.Servicios
+namespace PeluCaninaWeb.Client.Servicios
 {
     public interface IHTTPServicio
     {
