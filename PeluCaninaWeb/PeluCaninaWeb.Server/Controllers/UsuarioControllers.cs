@@ -66,16 +66,7 @@ namespace PeluCaninaWeb.Server.Controllers
         {
             try
             {
-                //Usuario entidad = new Usuario();
-
-                //entidad.Nombre = entidadDTO.Nombre;
-                //entidad.Apellido = entidadDTO.Apellido;
-                //entidad.Email = entidadDTO.Email;
-                //entidad.Contraseña = entidadDTO.Contraseña;
-                //entidad.Teléfono = entidadDTO.Teléfono;
-                //entidad.Dirección = entidadDTO.Dirección;
-                //entidad.Cuit_Cuil = entidadDTO.Cuit_Cuil;
-                //entidad.Fecha_Registro = entidadDTO.Fecha_Registro;
+               
 
                 Usuario entidad = mapper.Map<Usuario>(entidadDTO);
 

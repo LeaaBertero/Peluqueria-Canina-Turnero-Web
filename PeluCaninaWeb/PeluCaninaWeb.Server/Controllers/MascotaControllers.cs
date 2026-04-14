@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PeluCaninaWeb.BD.Data;
 using PeluCaninaWeb.BD.Data.Entity;
+using PeluCaninaWeb.Server.Repositorio;
 using PeluCaninaWeb.Shared.DTO;
 
 namespace PeluCaninaWeb.Server.Controllers
@@ -12,21 +13,23 @@ namespace PeluCaninaWeb.Server.Controllers
 
     public class MascotaControllers : ControllerBase
     {
-        private readonly Context context;
+        private readonly IMascotaRepositorio repositorio;
         private readonly IMapper mapper;
 
-        public MascotaControllers(Context context, 
+        public MascotaControllers(IMascotaRepositorio repositorio, 
                                   IMapper mapper)
         {
-            this.context = context;
+            this.repositorio = repositorio;
+            //this.context = context;
             this.mapper = mapper;
         }
+
 
         #region Método Get
         [HttpGet]
         public async Task<ActionResult<List<Mascota>>> Get()
         {
-            return await context.Mascota.ToListAsync();
+            return await repositorio.Select();
         }
         #endregion
 
@@ -34,7 +37,7 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Mascota>> Get(int id)
         {
-            var dammy = await context.Mascota.FirstOrDefaultAsync(x => x.Id == id);
+            var dammy = await repositorio.SelectById(id);
 
             if (dammy == null)
             {
@@ -51,29 +54,20 @@ namespace PeluCaninaWeb.Server.Controllers
         {
             try
             {
-                //Mascota entidad = new Mascota();
 
-                //entidad.Nombre = entidadDTO.Nombre;
-                //entidad.Edad = entidadDTO.Edad;
-                //entidad.Peso = entidadDTO.Peso;
-                //entidad.Descripcion = entidadDTO.Descripcion;
-                //entidad.Especie = entidadDTO.Especie;
-                //entidad.Raza = entidadDTO.Raza;
 
                 Mascota entidad = mapper.Map<Mascota>(entidadDTO);
 
-                context.Mascota.Add(entidad);
-                await context.SaveChangesAsync();
-                return entidad.Id;
+                return await repositorio.Insert(entidad);
+
             }
-            catch (Exception e)
+            catch (Exception err)
             {
 
-                return BadRequest(e.Message);
+                return BadRequest(err.Message);
             }
         }
         #endregion
-
         #region Método Put
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(int id, [FromBody] Mascota entidad)
@@ -83,12 +77,11 @@ namespace PeluCaninaWeb.Server.Controllers
                 return BadRequest("Datos incorrectos");
             }
 
-            var dammy = await context.Mascota.
-                Where(e => e.Id == id).FirstOrDefaultAsync();
+            var dammy = await repositorio.SelectById(id);
 
             if (dammy == null)
             {
-                return NotFound("No se encontró la promoción");
+                return NotFound("No se encontró el registro");
             }
 
             dammy.Nombre = entidad.Nombre;
@@ -97,13 +90,16 @@ namespace PeluCaninaWeb.Server.Controllers
             dammy.Descripcion = entidad.Descripcion;
             dammy.Especie = entidad.Especie;
             dammy.Raza = entidad.Raza;
+            
+
 
 
 
             try
             {
-                context.Mascota.Update(dammy);
-                await context.SaveChangesAsync();
+                await repositorio.Update(id, dammy);
+
+
                 return Ok();
 
             }
@@ -119,22 +115,20 @@ namespace PeluCaninaWeb.Server.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var existe = await context.Mascota.AnyAsync(x => x.Id == id);
+            var existe = repositorio.Existe(id);
 
-            if (!existe)
+            if (!await existe) //await existe
             {
                 return NotFound($"La mascota {id} no existe.");
             }
-
-            Mascota EntidadAborrar = new Mascota();
-
-            EntidadAborrar.Id = id;
-
-            context.Remove(EntidadAborrar);
-
-            await context.SaveChangesAsync();
-
-            return Ok($"La mascota {id} fue eliminada correctamente.");
+            if (await repositorio.Delete(id))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
         #endregion
     }
