@@ -1,7 +1,196 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peluquería Canina</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #fdfdfd;
+            color: #333;
+        }
 
-<h1>Peluqueria canina</h1>
+        /* Navbar */
+        header {
+            background-color: #ffffff;
+            border-bottom: 2px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-Bienvenido
+            header h1 {
+                color: #ff7b00;
+                font-size: 1.6em;
+            }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+
+            nav a:hover {
+                color: #ff7b00;
+            }
+
+        .btn {
+            background-color: #ff7b00;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Hero section */
+        .hero {
+            background: linear-gradient(to right, #ff7b00, #ffb74d);
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+        }
+
+            .hero h2 {
+                font-size: 3em;
+                margin-bottom: 10px;
+            }
+
+            .hero p {
+                font-size: 1.2em;
+                margin-bottom: 20px;
+            }
+
+        /* Secciones */
+        section {
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        #servicios .cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            width: 280px;
+            padding: 20px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+                border-color: #ff7b00;
+            }
+
+            .card h3 {
+                color: #ff7b00;
+                margin-bottom: 10px;
+            }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+            footer p {
+                margin: 5px 0;
+            }
+
+      
+      
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .hero h2 {
+            font-size: 2em;
+        }
+
+        .cards {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card {
+            width: 90%;
+        }
+
+        .hero {
+            height: 40vh;
+        }
+
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🐶 Peluquería Canina</h1>
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#contacto">Contacto</a>
+            <a href="#" class="btn">Reservar Turno</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="inicio">
+        <h2>Cuidamos a tu mejor amigo</h2>
+        <p>Estética y cariño para tu mascota</p>
+        <a href="#servicios" class="btn">Conocer Servicios</a>
+    </section>
+
+    <section id="servicios">
+        <h2>Nuestros Servicios</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>✂️ Corte y Estilo</h3>
+                <p>Cortes profesionales para todas las razas.</p>
+            </div>
+            <div class="card">
+                <h3>🛁 Baño y Limpieza</h3>
+                <p>Baños completos y aromaterapia.</p>
+            </div>
+            <div class="card">
+                <h3>💆 Spa & Relax</h3>
+                <p>Tratamientos de spa y masajes.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacto">
+        <p>📍 Córdoba, Argentina | 📞 351-xxxx-xxxx</p>
+        <p>Síguenos en Instagram y Facebook</p>
+        <p>© 2026 Peluquería Canina</p>
+    </footer>
+
+</body>
+</html>

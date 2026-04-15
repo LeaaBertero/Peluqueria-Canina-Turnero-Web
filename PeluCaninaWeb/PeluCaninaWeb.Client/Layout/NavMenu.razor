@@ -1,45 +1,54 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@* <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">PeluCaninaWeb.Client</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
-</div>
+</div> *@
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
+    <nav class="nav flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/api/Usuario/Crear" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Crear Usuario
+            <NavLink class="nav-link d-flex align-items-center" href="/" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill me-2" aria-hidden="true"></span> Home
             </NavLink>
         </div>
 
-      
-       
-       @*  <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div> *@
-
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="https://localhost:7096/swagger" target="blank">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Swagger
+            <NavLink class="nav-link d-flex align-items-center" href="/api/Usuario/Crear" Match="NavLinkMatch.All">
+                <span class="bi bi-person-plus-fill me-2" aria-hidden="true"></span> Crear Usuario
             </NavLink>
         </div>
-      @*   <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div> *@
+
+        <div class="nav-item px-3">
+            <a class="nav-link d-flex align-items-center" href="https://localhost:7096/swagger" target="_blank">
+                <span class="bi bi-list-nested me-2" aria-hidden="true"></span> Swagger
+            </a>
+        </div>
     </nav>
 </div>
+
+<style>
+    .nav-scrollable {
+        background: linear-gradient(180deg, #ff7e00, #ffb347); /* degradé naranja */
+        min-height: 100vh; /* ocupa toda la altura */
+        padding-top: 1rem;
+    }
+
+    .nav-link {
+        color: #fff !important;
+        font-weight: 500;
+        border-radius: 5px;
+        transition: background 0.3s ease, color 0.3s ease;
+    }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff !important;
+        }
+</style>
+
 
 @code {
     private bool collapseNavMenu = true;
