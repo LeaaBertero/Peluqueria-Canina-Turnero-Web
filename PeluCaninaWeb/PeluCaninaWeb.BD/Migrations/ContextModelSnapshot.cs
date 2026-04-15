@@ -218,7 +218,7 @@ namespace PeluCaninaWeb.BD.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("UduarioId")
+                    b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

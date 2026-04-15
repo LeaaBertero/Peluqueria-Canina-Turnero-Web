@@ -12,8 +12,8 @@ using PeluCaninaWeb.BD.Data;
 namespace PeluCaninaWeb.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20260405010313_ActualizoPaqueteMapper")]
-    partial class ActualizoPaqueteMapper
+    [Migration("20260415005757_NuevaMig")]
+    partial class NuevaMig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -221,7 +221,7 @@ namespace PeluCaninaWeb.BD.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("UduarioId")
+                    b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

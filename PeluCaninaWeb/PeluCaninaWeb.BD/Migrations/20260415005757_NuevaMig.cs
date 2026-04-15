@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PeluCaninaWeb.BD.Migrations
 {
     /// <inheritdoc />
-    public partial class ActualizoPaqueteMapper : Migration
+    public partial class NuevaMig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -102,7 +102,7 @@ namespace PeluCaninaWeb.BD.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UduarioId = table.Column<int>(type: "int", nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Apellido = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),

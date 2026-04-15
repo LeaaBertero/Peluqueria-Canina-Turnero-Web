@@ -10,7 +10,7 @@ namespace PeluCaninaWeb.BD.Data.Entity
     public class Usuario : EntityBase
     {
         #region clave primaria
-        public int UduarioId { get; set; }
+        public int UsuarioId { get; set; }
         #endregion
 
         #region atributos
