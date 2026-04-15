@@ -16,14 +16,13 @@ namespace PeluCaninaWeb.Client.Servicios
         }
         #endregion
 
-        #region Método Get<T>
+        #region Servicio Get
         public async Task<HTTPRespuesta<T>> Get<T>(string url)
         {
             var response = await http.GetAsync(url);
 
             if (response.IsSuccessStatusCode)
             {
-                //return new HTTPRespuesta<T>(default, true, response);
                 var respuesta = await DesSerializar<T>(response);
                 return new HTTPRespuesta<T>(respuesta, false, response);
             }
@@ -34,7 +33,7 @@ namespace PeluCaninaWeb.Client.Servicios
         }
         #endregion
 
-        #region Metodo Post<T>
+        #region Servicio Post
         public async Task<HTTPRespuesta<object>> Post<T>(string url, T entidad)
         {
             var enviarJson = JsonSerializer.Serialize(entidad);
@@ -56,7 +55,7 @@ namespace PeluCaninaWeb.Client.Servicios
         }
         #endregion
 
-        #region Método Put<T>
+        #region Servicio Put
         public async Task<HTTPRespuesta<object>> Put<T>(string url, T entidad)
         {
             var enviarJson = JsonSerializer.Serialize(entidad);
@@ -78,7 +77,7 @@ namespace PeluCaninaWeb.Client.Servicios
         }
         #endregion
 
-        #region Método Delete<T>
+        #region Servicio Delete
         public async Task<HTTPRespuesta<object>> Delete(string url)
         {
             var respuesta = await http.DeleteAsync(url);
@@ -88,7 +87,7 @@ namespace PeluCaninaWeb.Client.Servicios
         }
         #endregion
 
-        #region  Método DesSerializar<T>
+        #region Servicio DesSerializar
         private async Task<T?> DesSerializar<T>(HttpResponseMessage response)
         {
             var respuestaStr = await response.Content.ReadAsStringAsync();

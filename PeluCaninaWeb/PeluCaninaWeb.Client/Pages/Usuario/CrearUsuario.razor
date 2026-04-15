@@ -1,5 +1,4 @@
 ﻿@page "/api/Usuario/Crear"
-@using PeluCaninaWeb.BD.Data.Entity
 @inject IHTTPServicio http;
 @inject NavigationManager navigationManager;
 
@@ -68,14 +67,24 @@
 
                 <!-- Botones -->
                 <div class="d-flex justify-content-between mt-4">
+                    
                     <button class="btn btn-primary" type="submit">
                         <i class="bi bi-person-plus"></i> Registrar
                     </button>
+
                     <button class="btn btn-outline-secondary" type="button" @onclick="Cancelar">
                         <i class="bi bi-x-circle"></i> Cancelar
                     </button>
+
+                    <button class="btn btn-outline-secondary" type="button" @onclick="VerLista">
+                        <i class="bi bi-x-circle"></i> Ir a lista
+                    </button>
+
+                
                 </div>
+        
             </EditForm>
+        
         </header>
 
         <main></main>
@@ -95,6 +104,7 @@
     private string FormClass => isDarkMode ? "p-4 shadow rounded bg-dark text-light" : "p-4 shadow rounded bg-light";
     private string InputClass => isDarkMode ? "bg-dark text-light" : "";
 
+    #region boton grabar datoss del formulario de entrada
     private async Task Grabar()
     {
         var httpRespuesta = await http.Post<Usuario>("api/Usuario", usuario);
@@ -104,12 +114,23 @@
             var body = httpRespuesta.HttpResponseMessage;
         }
     }
+    #endregion
 
+    #region boton cancelar
     private void Cancelar()
     {
         //vuelve a la pagina principal
         navigationManager.NavigateTo("/");
     }
+    #endregion
+
+    #region boton ver lista de usuarios registrados
+    void VerLista()
+    {
+        //vuelve a la pagina principal
+        navigationManager.NavigateTo("api/ListaUsuario");
+    }
+    #endregion
 
     private void ToggleDarkMode()
     {
