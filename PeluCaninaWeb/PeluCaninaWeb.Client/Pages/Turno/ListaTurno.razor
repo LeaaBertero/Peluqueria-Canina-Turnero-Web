@@ -1,0 +1,77 @@
+﻿@page "/api/ListaTurno"
+@inject IHTTPServicio http;
+@inject NavigationManager navigationManager;
+
+<h1 class="text-center mb-4 text-primary fw-bold">
+    👥 Lista deturnos 
+</h1>
+
+<div class="d-flex justify-content-between mb-3">
+    <a class="btn btn-success" href="/api/Turno/Crear">
+        <i class="bi bi-person-plus"></i> Voler atrás
+    </a>
+    <a class="btn btn-outline-secondary" href="/">
+        <i class="bi bi-house-door"></i> Inicio
+    </a>
+</div>
+
+@if (listaturno == null)
+{
+    <div class="alert alert-info text-center">
+        <i class="bi bi-search"></i> Buscando turnos ...
+    </div>
+}
+else
+{
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Fecha_Hora</th>
+                    <th>Nota</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in listaturno)
+                {
+                    <tr>
+                        <td>@item.FechaHora</td>
+                        <td>@item.Nota</td>
+                        
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+
+@code {
+    List<Turno> listaturno;
+
+    string Mensaje;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        await Leer();
+    }
+
+    private async Task Leer()
+    {
+        var respuesta = await http.Get<List<Turno>>("api/Turno");
+        if (!respuesta.Error)
+        {
+            listaturno = respuesta.Respuesta;
+        }
+        else
+        {
+            Mensaje = await respuesta.ObtenerError();
+        }
+
+    }
+}
