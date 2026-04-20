@@ -1,0 +1,81 @@
+﻿@page "/api/ListaServicio"
+@inject IHTTPServicio http;
+@inject NavigationManager navigationManager;
+
+
+
+<h1 class="text-center mb-4 text-primary fw-bold">
+     Lista de turnos
+</h1>
+
+<div class="d-flex justify-content-between mb-3">
+    <a class="btn btn-success" href="api/Servicio/Crear">
+        <i class="bi bi-person-plus"></i> Voler atrás
+    </a>
+    <a class="btn btn-outline-secondary" href="/">
+        <i class="bi bi-house-door"></i> Inicio
+    </a>
+</div>
+
+@if (listaServicio == null)
+{
+    <div class="alert alert-info text-center">
+        <i class="bi bi-search"></i> Buscando turnos realizados...
+    </div>
+}
+else
+{
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in listaServicio)
+                {
+                    <tr>
+                        <td>@item.Nombre</td>
+                        <td>@item.Descripcion</td>
+                        <td>@item.Precio</td>
+                        
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+
+@code {
+    List<Servicio> listaServicio;
+
+    string Mensaje;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        await Leer();
+    }
+
+    private async Task Leer()
+    {
+        var respuesta = await http.Get<List<Servicio>>("api/Servicio");
+        if (!respuesta.Error)
+        {
+            listaServicio = respuesta.Respuesta;
+        }
+        else
+        {
+            Mensaje = await respuesta.ObtenerError();
+        }
+
+    }
+}
