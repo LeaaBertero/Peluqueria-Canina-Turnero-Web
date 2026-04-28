@@ -1,0 +1,133 @@
+﻿@page "/api/Promocion/Crear"
+@inject IHTTPServicio http;
+@inject NavigationManager navigationManager;
+
+<!DOCTYPE html>
+<html class="@BodyClass">
+
+<head>
+    <title>Registro de promociones</title>
+</head>
+
+<body>
+
+    <header>
+        <h1 class="text-center mb-4">Registro de Usuario</h1>
+
+        <button class="btn btn-sm btn-outline-secondary mb-3" @onclick="ToggleDarkMode">
+            @(isDarkMode ? "🌙 Modo Claro" : "🌞 Modo Oscuro")
+        </button>
+
+        <EditForm Model="promocion" OnValidSubmit="Grabar" class="@FormClass">
+            <DataAnnotationsValidator />
+            @* <ValidationSummary /> *@
+
+            <!-- Datos personales -->
+            <h5 class="mb-3">Carga de promociones</h5>
+            <div class="form-floating mb-3">
+                <input type="text" @bind="promocion.Titulo" class="form-control @InputClass" id="titulo" placeholder="Titulo-promocion" />
+                <label for="titulo">Titulo</label>
+                <ValidationMessage For="@(() => promocion.Titulo)" />
+            </div>
+           
+            <div class="form-floating mb-3">
+                <input type="text" @bind="promocion.Descripcion" class="form-control @InputClass" id="descripcion" placeholder="descripcion-promocion" />
+                <label for="Descripcion">Decripción</label>
+                <ValidationMessage For="@(() => promocion.Descripcion)" />
+            </div>
+           
+            <div class="form-floating mb-3">
+                <input type="date" @bind="promocion.FechaInicio" class="form-control @InputClass" id="fechainicio"/>
+                <label for="FechaInicio">Fecha inicio</label>
+                <ValidationMessage For="@(() => promocion.FechaInicio)" />
+            </div>
+          
+            <div class="form-floating mb-3">
+                <input type="date" @bind="promocion.FechaFin" class="form-control @InputClass" id="fechafin"/>
+                <label for="FechaFin">Fecha fin</label>
+                <ValidationMessage For="@(() => promocion.FechaFin)" />
+            </div>
+
+            <div class="mb-3">
+                <label for="activoSelect" class="form-label">Activo</label>
+                <select class="form-select" id="activoSelect" name="activo">
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                </select>
+            </div>
+
+
+           
+
+            <!-- Botones -->
+            <div class="d-flex justify-content-between mt-4">
+
+                <button class="btn btn-primary" type="submit">
+                    <i class="bi bi-person-plus"></i> Registrar
+                </button>
+
+                <button class="btn btn-outline-secondary" type="button" @onclick="Cancelar">
+                    <i class="bi bi-x-circle"></i> Cancelar
+                </button>
+
+                <button class="btn btn-outline-secondary" type="button" @onclick="VerLista">
+                    <i class="bi bi-x-circle"></i> Ir a lista
+                </button>
+
+
+            </div>
+
+        </EditForm>
+
+    </header>
+
+    <main></main>
+
+    <footer class="mt-4">
+        <p>Peluqueria Canina - Gestión de turnos</p>
+    </footer>
+
+</body>
+</html>
+
+@code {
+    private Promocion promocion = new Promocion();
+    private bool isDarkMode = false;
+
+    private string BodyClass => isDarkMode ? "bg-dark text-light" : "bg-light";
+    private string FormClass => isDarkMode ? "p-4 shadow rounded bg-dark text-light" : "p-4 shadow rounded bg-light";
+    private string InputClass => isDarkMode ? "bg-dark text-light" : "";
+
+    #region boton grabar datoss del formulario de entrada
+    private async Task Grabar()
+    {
+        var httpRespuesta = await http.Post<Promocion>("api/Promocion", promocion);
+
+        if (httpRespuesta.Error)
+        {
+            var body = httpRespuesta.HttpResponseMessage;
+        }
+    }
+    #endregion
+
+    #region boton cancelar
+    private void Cancelar()
+    {
+        //vuelve a la pagina principal
+        navigationManager.NavigateTo("/");
+    }
+    #endregion
+
+    #region boton ver lista de usuarios registrados
+    void VerLista()
+    {
+        //vuelve a la pagina principal
+        navigationManager.NavigateTo("#api/ListaPromocion");
+    }
+    #endregion
+
+    private void ToggleDarkMode()
+    {
+        isDarkMode = !isDarkMode;
+    }
+}
