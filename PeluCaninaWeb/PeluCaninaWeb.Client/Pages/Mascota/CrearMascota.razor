@@ -1,0 +1,137 @@
+﻿@page "/api/Mascota/Crear"
+@inject IHTTPServicio http;
+@inject NavigationManager navigationManager;
+
+<!DOCTYPE html>
+<html class="@BodyClass">
+
+<head>
+    <title>Registro de Mascota</title>
+</head>
+
+<body>
+
+    <header>
+        <h1 class="text-center mb-4">Registro de mascotas</h1>
+
+        <button class="btn btn-sm btn-outline-secondary mb-3" @onclick="ToggleDarkMode">
+            @(isDarkMode ? "🌙 Modo Claro" : "🌞 Modo Oscuro")
+        </button>
+
+        <EditForm Model="mascota" OnValidSubmit="Grabar" class="@FormClass">
+            <DataAnnotationsValidator />
+            @* <ValidationSummary /> *@
+
+            <!-- Datos personales -->
+            <h5 class="mb-3">Datos personales</h5>
+            
+            <div class="form-floating mb-3">
+                <input type="text" @bind="mascota.Nombre" class="form-control @InputClass" id="nombre" placeholder="Nombre de la mascota" />
+                <label for="nombre">Nombre</label>
+                <ValidationMessage For="@(() => mascota.Nombre)" />
+            </div>
+           
+            <div class="form-floating mb-3">
+                <input type="number" @bind="mascota.Edad" class="form-control @InputClass" id="edad" placeholder="Edad" />
+                <label for="edad">Edad</label>
+                <ValidationMessage For="@(() => mascota.Edad)" />
+            </div>
+            
+            <div class="form-floating mb-3">
+                <input type="number" @bind="mascota.Peso" class="form-control @InputClass" id="peso" placeholder="Peso" />
+                <label for="Peso">Peso</label>
+                <ValidationMessage For="@(() => mascota.Peso)" />
+            </div>
+            
+            <div class="form-floating mb-3">
+                <input type="text" @bind="mascota.Descripcion" class="form-control @InputClass" id="Descripción" placeholder="Descripción" />
+                <label for="Descripción">Descripción</label>
+                <ValidationMessage For="@(() => mascota.Descripcion)" />
+            </div>
+            
+            <div class="form-floating mb-3">
+                <input type="text" @bind="mascota.Especie" class="form-control @InputClass" id="Especie" placeholder="Especie" />
+                <label for="Especie">Especie</label>
+                <ValidationMessage For="@(() => mascota.Especie)" />
+            </div>
+           
+            <div class="form-floating mb-3">
+                <input type="text" @bind="mascota.Raza" class="form-control @InputClass" id="Raza" placeholder="Raza" />
+                <label for="Raza">Raza</label>
+                <ValidationMessage For="@(() => mascota.Raza)" />
+            </div>
+
+           
+
+            <!-- Botones -->
+            <div class="d-flex justify-content-between mt-4">
+
+                <button class="btn btn-primary" type="submit">
+                    <i class="bi bi-person-plus"></i> Registrar
+                </button>
+
+                <button class="btn btn-outline-secondary" type="button" @onclick="Cancelar">
+                    <i class="bi bi-x-circle"></i> Cancelar
+                </button>
+
+                <button class="btn btn-outline-secondary" type="button" @onclick="VerLista">
+                    <i class="bi bi-x-circle"></i> Ir a lista
+                </button>
+
+                
+            </div>
+
+        </EditForm>
+
+    </header>
+
+    <main></main>
+
+    <footer class="mt-4">
+        <p>Peluqueria Canina - Gestión de turnos</p>
+    </footer>
+
+</body>
+</html>
+
+@code {
+    private Mascota mascota = new Mascota();
+    private bool isDarkMode = false;
+
+    private string BodyClass => isDarkMode ? "bg-dark text-light" : "bg-light";
+    private string FormClass => isDarkMode ? "p-4 shadow rounded bg-dark text-light" : "p-4 shadow rounded bg-light";
+    private string InputClass => isDarkMode ? "bg-dark text-light" : "";
+
+    #region boton grabar datoss del formulario de entrada
+    private async Task Grabar()
+    {
+        var httpRespuesta = await http.Post<Mascota>("api/Mascota", mascota);
+
+        if (httpRespuesta.Error)
+        {
+            var body = httpRespuesta.HttpResponseMessage;
+        }
+    }
+    #endregion
+
+    #region boton cancelar
+    private void Cancelar()
+    {
+        //vuelve a la pagina principal
+        navigationManager.NavigateTo("/");
+    }
+    #endregion
+
+    #region boton ver lista de mascotas registradas
+    void VerLista()
+    {
+        //vuelve a la pagina principal
+        navigationManager.NavigateTo("api/ListaMascota");
+    }
+    #endregion
+
+    private void ToggleDarkMode()
+    {
+        isDarkMode = !isDarkMode;
+    }
+}
