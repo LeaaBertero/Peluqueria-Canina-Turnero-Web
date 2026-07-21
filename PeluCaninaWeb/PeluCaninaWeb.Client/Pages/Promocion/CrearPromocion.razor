@@ -6,13 +6,13 @@
 <html class="@BodyClass">
 
 <head>
-    <title>Registro de promociones</title>
+    <title>Promociones</title>
 </head>
 
 <body>
 
     <header>
-        <h1 class="text-center mb-4">Registro de Usuario</h1>
+        <h1 class="text-center mb-4">Nuestras promos</h1>
 
         <button class="btn btn-sm btn-outline-secondary mb-3" @onclick="ToggleDarkMode">
             @(isDarkMode ? "🌙 Modo Claro" : "🌞 Modo Oscuro")
@@ -122,7 +122,7 @@
     void VerLista()
     {
         //vuelve a la pagina principal
-        navigationManager.NavigateTo("#api/ListaPromocion");
+        navigationManager.NavigateTo("api/ListaPromocion");
     }
     #endregion
 
