@@ -13,9 +13,9 @@ namespace PeluCaninaWeb.BD.Data
         #region constructor del context
         public Context(DbContextOptions options) : base(options)
         {
-        
         }
         #endregion
+
 
         #region entidades
         public DbSet<Mascota> Mascota { get; set; }

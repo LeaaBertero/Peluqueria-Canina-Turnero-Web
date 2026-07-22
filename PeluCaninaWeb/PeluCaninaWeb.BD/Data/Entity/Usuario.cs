@@ -15,7 +15,7 @@ namespace PeluCaninaWeb.BD.Data.Entity
 
         #region atributos
         [Required(ErrorMessage = "El nombre es obligatorio")]
-        [MaxLength(50, ErrorMessage = "Maximo número de caracteres {1}")]
+        [MaxLength(100, ErrorMessage = "Maximo número de caracteres {1}")]
         public string? Nombre { get; set; }
 
         [Required(ErrorMessage = "El apellido es obligatorio")]
@@ -23,7 +23,7 @@ namespace PeluCaninaWeb.BD.Data.Entity
         public string? Apellido { get; set; }
 
         [Required(ErrorMessage = "El mail es obligatorio")]
-        [MaxLength(50, ErrorMessage = "Maximo número de caracteres {1}")]
+        [MaxLength(100, ErrorMessage = "Maximo número de caracteres {1}")]
         public string? Email { get; set; }
 
         [Required(ErrorMessage = "La contraseña es obligatorio")]
