@@ -9,11 +9,13 @@
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link d-flex align-items-center" href="/Administracion" Match="NavLinkMatch.All">
+
+      @*   <div class="nav-item px-3">
+            <NavLink class="nav-link d-flex align-items-center" href="/admin" Match="NavLinkMatch.All">
                 <span class="bi bi-person-plus-fill me-2" aria-hidden="true"></span>Administración
             </NavLink>
-        </div>
+        </div> *@
+
         <div class="nav-item px-3">
             <NavLink class="nav-link d-flex align-items-center" href="/" Match="NavLinkMatch.All">
                 <span class="bi bi-house-door-fill me-2" aria-hidden="true"></span> Home
@@ -53,11 +55,11 @@
 
 
 
-        <div class="nav-item px-3">
+       @*  <div class="nav-item px-3">
             <a class="nav-link d-flex align-items-center" href="https://localhost:7096/swagger" target="_blank">
                 <span class="bi bi-list-nested me-2" aria-hidden="true"></span> Swagger
             </a>
-        </div>
+        </div> *@
     </nav>
 </div>
 
