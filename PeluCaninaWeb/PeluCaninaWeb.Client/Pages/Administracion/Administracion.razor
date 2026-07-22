@@ -2,8 +2,31 @@
 @inject IHTTPServicio http;
 @inject NavigationManager navigationManager;
 
-<h3>Administracion</h3>
+
+
+<h3 class="text-center mb-4 text-primary fw-bold">Administración</h3>
+
+<div class="d-flex justify-content-center gap-3 mb-4">
+    <a href="/api/ListaUsuario" class="btn btn-success btn-sm">
+        <i class="bi bi-plus-circle"></i> Usuarios
+    </a>
+    <a href="/api/ListaTurno" class="btn btn-primary btn-sm">
+        <i class="bi bi-pencil"></i> Turnos
+    </a>
+    <a href="/api/ListaServicio" class="btn btn-danger btn-sm">
+        <i class="bi bi-trash"></i> Servicios
+    </a>
+    <a href="/api/ListaPromocion" class="btn btn-danger btn-sm">
+        <i class="bi bi-trash"></i> Promociones
+    </a>
+    <a href="/api/ListaMascota" class="btn btn-danger btn-sm">
+        <i class="bi bi-trash"></i> Mascotas
+    </a>
+    <a href="/" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left-circle"></i> Volver
+    </a>
+</div>
 
 @code {
-
+    
 }
