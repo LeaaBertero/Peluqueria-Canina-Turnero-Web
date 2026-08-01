@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PeluCaninaWeb.BD.Migrations
 {
     /// <inheritdoc />
-    public partial class ActualizoMazLenghtEntidadUsuario : Migration
+    public partial class ActualizoMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

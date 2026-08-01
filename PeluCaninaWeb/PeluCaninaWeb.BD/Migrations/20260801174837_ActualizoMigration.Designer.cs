@@ -12,8 +12,8 @@ using PeluCaninaWeb.BD.Data;
 namespace PeluCaninaWeb.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20260722143719_ActualizoMazLenghtEntidadUsuario")]
-    partial class ActualizoMazLenghtEntidadUsuario
+    [Migration("20260801174837_ActualizoMigration")]
+    partial class ActualizoMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

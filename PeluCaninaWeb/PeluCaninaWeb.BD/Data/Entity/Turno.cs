@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace PeluCaninaWeb.BD.Data.Entity
@@ -14,7 +15,9 @@ namespace PeluCaninaWeb.BD.Data.Entity
         #endregion
 
         #region claves foraneas
+        [JsonIgnore]
         public int UsuarioId { get; set; }
+        [JsonIgnore]
         public int MascotaId { get; set; }
         #endregion
 
