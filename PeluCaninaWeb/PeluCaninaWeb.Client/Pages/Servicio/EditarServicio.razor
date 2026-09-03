@@ -1,0 +1,111 @@
+﻿@page "/api/Servicio/Editar/{Promocion_ProductoId:int}"
+@inject IHTTPServicio http;
+@inject NavigationManager navigationManager;
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Editar Servicio</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>Editar servicios</h1>
+    </header>
+
+    <main>
+
+        <EditForm Model="servicio" OnValidSubmit="Grabar">
+
+            <DataAnnotationsValidator />
+            @* <ValidationSummary /> *@
+
+            
+
+            <div class="form-group">
+                <label for="NombreServicio">Nombre servicio</label>
+                <input type="text" @bind="servicio.Nombre" class="form-control" />
+                <ValidationMessage For="@(() => servicio.Nombre)" />
+            </div>
+
+            <div class="form-group">
+                <label for="descripcion">Descripción</label>
+                <input type="text" @bind="servicio.Descripcion" class="form-control" />
+                <ValidationMessage For="@(() => servicio.Descripcion)" />
+            </div>
+
+                
+           
+
+
+            <div>
+                <button class="btn btn-success" type="submit">Actualizar promoción</button>
+                <button class="btn btn-secondary" onclick="Cancelar">Cancelar</button>
+            </div>
+
+
+        </EditForm>
+
+    </main>
+
+    <footer>
+    </footer>
+
+</body>
+
+</html>
+
+
+@code {
+
+    private Servicio servicio = new Servicio();
+
+    [Parameter]
+    public int ServicioId { get; set; }
+
+
+
+    // string pepe = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await Mostrar();
+    }
+
+    private async Task Mostrar()
+    {
+        var respuesta = await http.Get<Servicio>($"api/Servicio/{ServicioId}");
+
+        if (!respuesta.Error)
+        {
+            servicio = respuesta.Respuesta;
+        }
+        else
+        {
+            navigationManager.NavigateTo("/api/Servicio");
+        }
+    }
+
+
+
+    private async Task Grabar()
+    {
+        //tDocumento.Personas = new List<Persona>();
+
+        var httpRespuesta = await http.Put<Servicio>($"api/Servicio/{ServicioId}", servicio);
+        if (httpRespuesta.Error)
+        {
+            var body = httpRespuesta.HttpResponseMessage;
+        }
+        navigationManager.NavigateTo("/api/Servicio");
+    }
+
+    private void Cancelar()
+    {
+        navigationManager.NavigateTo("/");
+    }
+
+}

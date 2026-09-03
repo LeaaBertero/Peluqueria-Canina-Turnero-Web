@@ -12,8 +12,8 @@ using PeluCaninaWeb.BD.Data;
 namespace PeluCaninaWeb.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20260830051450_ActualizoBaseDeDatos")]
-    partial class ActualizoBaseDeDatos
+    [Migration("20260903004450_NuevaMigracion")]
+    partial class NuevaMigracion
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
