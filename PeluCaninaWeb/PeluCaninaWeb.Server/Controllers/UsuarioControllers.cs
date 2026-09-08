@@ -102,7 +102,7 @@ namespace PeluCaninaWeb.Server.Controllers
             dammy.Email = entidad.Email;
             dammy.Contrasenia = entidad.Contrasenia;
             dammy.Telefono = entidad.Telefono;
-            dammy.Rol = entidad.Rol;
+           
            
 
 

@@ -104,6 +104,27 @@ namespace PeluCaninaWeb.BD.Migrations
                     b.ToTable("Promocion");
                 });
 
+            modelBuilder.Entity("PeluCaninaWeb.BD.Data.Entity.Rol", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("NombreRol")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("RolId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Rol");
+                });
+
             modelBuilder.Entity("PeluCaninaWeb.BD.Data.Entity.Servicio", b =>
                 {
                     b.Property<int>("Id")
@@ -210,7 +231,7 @@ namespace PeluCaninaWeb.BD.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Rol")
+                    b.Property<int>("RolId")
                         .HasColumnType("int");
 
                     b.Property<string>("Telefono")

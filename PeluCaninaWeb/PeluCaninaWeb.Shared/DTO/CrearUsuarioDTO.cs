@@ -29,7 +29,7 @@ namespace PeluCaninaWeb.Shared.DTO
         [Required(ErrorMessage = "El teléfono es obligatorio")]
         [MaxLength(50, ErrorMessage = "Maximo número de caracteres {1}")]
         public string? Telefono { get; set; }
-        public int Rol { get; set; }
+        //public int Rol { get; set; }
         #endregion
     }
 }

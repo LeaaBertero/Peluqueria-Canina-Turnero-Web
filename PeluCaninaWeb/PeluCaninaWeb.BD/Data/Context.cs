@@ -23,6 +23,7 @@ namespace PeluCaninaWeb.BD.Data
         public DbSet<Servicio> Servicio { get; set; }
         public DbSet<Turno> Turno { get; set; }
         public DbSet<TurnoServicio> TurnoServicio { get; set; }
+        public DbSet<Rol> Rol { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
         #endregion
 

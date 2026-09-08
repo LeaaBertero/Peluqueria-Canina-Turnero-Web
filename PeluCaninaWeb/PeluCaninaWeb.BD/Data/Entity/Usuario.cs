@@ -13,6 +13,10 @@ namespace PeluCaninaWeb.BD.Data.Entity
         public int UsuarioId { get; set; }
         #endregion
 
+        #region clave foranea
+        public int RolId { get; set; }
+        #endregion
+
         #region atributos
         [Required(ErrorMessage = "El nombre es obligatorio")]
         [MaxLength(100, ErrorMessage = "Maximo número de caracteres {1}")]
@@ -33,7 +37,7 @@ namespace PeluCaninaWeb.BD.Data.Entity
         [Required(ErrorMessage = "El teléfono es obligatorio")]
         [MaxLength(50, ErrorMessage = "Maximo número de caracteres {1}")]
         public string? Telefono { get; set; }
-        public int Rol { get; set; }
+        //public int Rol { get; set; }
         #endregion
     }
 }

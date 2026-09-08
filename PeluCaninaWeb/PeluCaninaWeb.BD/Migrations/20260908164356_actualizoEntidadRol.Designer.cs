@@ -12,8 +12,8 @@ using PeluCaninaWeb.BD.Data;
 namespace PeluCaninaWeb.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20260903004450_NuevaMigracion")]
-    partial class NuevaMigracion
+    [Migration("20260908164356_actualizoEntidadRol")]
+    partial class actualizoEntidadRol
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,6 +105,27 @@ namespace PeluCaninaWeb.BD.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Promocion");
+                });
+
+            modelBuilder.Entity("PeluCaninaWeb.BD.Data.Entity.Rol", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("NombreRol")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("RolId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Rol");
                 });
 
             modelBuilder.Entity("PeluCaninaWeb.BD.Data.Entity.Servicio", b =>
@@ -213,7 +234,7 @@ namespace PeluCaninaWeb.BD.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Rol")
+                    b.Property<int>("RolId")
                         .HasColumnType("int");
 
                     b.Property<string>("Telefono")
