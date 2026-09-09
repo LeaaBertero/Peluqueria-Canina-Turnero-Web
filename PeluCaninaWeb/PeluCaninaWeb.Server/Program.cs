@@ -42,6 +42,7 @@ builder.Services.AddScoped<IMascotaRepositorio, MascotaRepositorio>();
 builder.Services.AddScoped<IPromocionRepositorio, PromocionRepositorio>();
 builder.Services.AddScoped<IServicioRepositorio, ServicioRepositorio>();
 builder.Services.AddScoped<ITurnoRepositorio, TurnoRepositorio>();
+builder.Services.AddScoped<IRolRepositorio, RolRepositorio>();
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 #endregion
 

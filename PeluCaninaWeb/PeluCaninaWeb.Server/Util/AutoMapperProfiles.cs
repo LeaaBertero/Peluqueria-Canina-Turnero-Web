@@ -29,6 +29,11 @@ namespace PeluCaninaWeb.Server.Util
             CreateMap<Turno, CrearTurnoDTO>();
             #endregion
 
+            #region DTO Rol
+            CreateMap<CrearRolDTO, Rol>();
+            CreateMap<Rol, CrearRolDTO>();
+            #endregion
+
             #region DTO Usuario
             CreateMap<CrearUsuarioDTO, Usuario>();
             CreateMap<Usuario, CrearUsuarioDTO>();
