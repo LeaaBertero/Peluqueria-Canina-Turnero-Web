@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PeluCaninaWeb.BD.Migrations
 {
     /// <inheritdoc />
-    public partial class ActualizoEntidadUsuario : Migration
+    public partial class ActualizoEntidadMascota_Servicio : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,7 @@ namespace PeluCaninaWeb.BD.Migrations
                     UsuarioId = table.Column<int>(type: "int", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Edad = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Peso = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Peso = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     Descripcion = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Especie = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Raza = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
@@ -50,6 +50,20 @@ namespace PeluCaninaWeb.BD.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Rol",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RolId = table.Column<int>(type: "int", nullable: false),
+                    NombreRol = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rol", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Servicio",
                 columns: table => new
                 {
@@ -58,7 +72,7 @@ namespace PeluCaninaWeb.BD.Migrations
                     ServicioId = table.Column<int>(type: "int", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Descripcion = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Precio = table.Column<decimal>(type: "decimal(10,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,29 +130,33 @@ namespace PeluCaninaWeb.BD.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rol",
+                name: "RolUsuario",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RolId = table.Column<int>(type: "int", nullable: false),
-                    NombreRol = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    UsuarioId = table.Column<int>(type: "int", nullable: true)
+                    RolesId = table.Column<int>(type: "int", nullable: false),
+                    UsuariosId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rol", x => x.Id);
+                    table.PrimaryKey("PK_RolUsuario", x => new { x.RolesId, x.UsuariosId });
                     table.ForeignKey(
-                        name: "FK_Rol_Usuario_UsuarioId",
-                        column: x => x.UsuarioId,
+                        name: "FK_RolUsuario_Rol_RolesId",
+                        column: x => x.RolesId,
+                        principalTable: "Rol",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_RolUsuario_Usuario_UsuariosId",
+                        column: x => x.UsuariosId,
                         principalTable: "Usuario",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rol_UsuarioId",
-                table: "Rol",
-                column: "UsuarioId");
+                name: "IX_RolUsuario_UsuariosId",
+                table: "RolUsuario",
+                column: "UsuariosId");
         }
 
         /// <inheritdoc />
@@ -151,7 +169,7 @@ namespace PeluCaninaWeb.BD.Migrations
                 name: "Promocion");
 
             migrationBuilder.DropTable(
-                name: "Rol");
+                name: "RolUsuario");
 
             migrationBuilder.DropTable(
                 name: "Servicio");
@@ -161,6 +179,9 @@ namespace PeluCaninaWeb.BD.Migrations
 
             migrationBuilder.DropTable(
                 name: "TurnoServicio");
+
+            migrationBuilder.DropTable(
+                name: "Rol");
 
             migrationBuilder.DropTable(
                 name: "Usuario");

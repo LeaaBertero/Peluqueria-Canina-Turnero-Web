@@ -54,7 +54,7 @@ namespace PeluCaninaWeb.BD.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("Peso")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("Raza")
                         .IsRequired()
@@ -120,12 +120,7 @@ namespace PeluCaninaWeb.BD.Migrations
                     b.Property<int>("RolId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UsuarioId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Rol");
                 });
@@ -149,7 +144,7 @@ namespace PeluCaninaWeb.BD.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<int>("ServicioId")
                         .HasColumnType("int");
@@ -252,16 +247,34 @@ namespace PeluCaninaWeb.BD.Migrations
                     b.ToTable("Usuario");
                 });
 
-            modelBuilder.Entity("PeluCaninaWeb.BD.Data.Entity.Rol", b =>
+            modelBuilder.Entity("RolUsuario", b =>
                 {
-                    b.HasOne("PeluCaninaWeb.BD.Data.Entity.Usuario", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("UsuarioId");
+                    b.Property<int>("RolesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuariosId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RolesId", "UsuariosId");
+
+                    b.HasIndex("UsuariosId");
+
+                    b.ToTable("RolUsuario");
                 });
 
-            modelBuilder.Entity("PeluCaninaWeb.BD.Data.Entity.Usuario", b =>
+            modelBuilder.Entity("RolUsuario", b =>
                 {
-                    b.Navigation("Roles");
+                    b.HasOne("PeluCaninaWeb.BD.Data.Entity.Rol", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PeluCaninaWeb.BD.Data.Entity.Usuario", null)
+                        .WithMany()
+                        .HasForeignKey("UsuariosId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace PeluCaninaWeb.BD.Data.Entity
         public string? Descripcion { get; set; }
 
         [Required(ErrorMessage = "El precio del servicio es obligatorio")]
+        [Column(TypeName = "decimal(10,2)")]
         public decimal Precio { get; set; }
         #endregion
     }

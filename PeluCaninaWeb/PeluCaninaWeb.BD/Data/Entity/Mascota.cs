@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,7 @@ namespace PeluCaninaWeb.BD.Data.Entity
 
 
         [Required(ErrorMessage = "El peso es obligatorio")]
+        [Column(TypeName = "decimal(10,2)")]
         public decimal? Peso { get; set; }
 
         [Required(ErrorMessage = "La Descripción es obligatoria")]
