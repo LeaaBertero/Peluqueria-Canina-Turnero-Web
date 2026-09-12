@@ -34,7 +34,7 @@ else
                     <th>E-mail</th>
                     <th>Contraseña</th>
                     <th>Teléfono</th>
-                   @*  <th>Rol</th> *@
+                    <th>Roles</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,14 +46,23 @@ else
                         <td>@item.Email</td>
                         <td>@item.Contrasenia</td>
                         <td>@item.Telefono</td>
-                        @* <td>@item.Rol</td> *@
-                       
-                        
+                        <td>
+                            @if (item.Roles != null && item.Roles.Any())
+                            {
+                                <!-- Mostrar roles separados por coma -->
+                                @string.Join(", ", item.Roles.Select(r => r.NombreRol))
+                            }
+                            else
+                            {
+                                <span>Sin roles</span>
+                            }
+                        </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
+
 }
 
     <div class="d-flex justify-content-between mb-3">

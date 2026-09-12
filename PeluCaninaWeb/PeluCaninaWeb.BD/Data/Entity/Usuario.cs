@@ -17,6 +17,10 @@ namespace PeluCaninaWeb.BD.Data.Entity
         public int RolId { get; set; }
         #endregion
 
+        #region lista de roles
+        public List<Rol>? Roles { get; set; } = new List<Rol>();
+        #endregion
+
         #region atributos
         [Required(ErrorMessage = "El nombre es obligatorio")]
         [MaxLength(100, ErrorMessage = "Maximo número de caracteres {1}")]

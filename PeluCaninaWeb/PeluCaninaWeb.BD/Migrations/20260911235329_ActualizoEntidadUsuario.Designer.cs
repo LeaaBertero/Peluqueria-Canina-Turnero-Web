@@ -12,8 +12,8 @@ using PeluCaninaWeb.BD.Data;
 namespace PeluCaninaWeb.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20260908164356_actualizoEntidadRol")]
-    partial class actualizoEntidadRol
+    [Migration("20260911235329_ActualizoEntidadUsuario")]
+    partial class ActualizoEntidadUsuario
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -123,7 +123,12 @@ namespace PeluCaninaWeb.BD.Migrations
                     b.Property<int>("RolId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UsuarioId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Rol");
                 });
@@ -248,6 +253,18 @@ namespace PeluCaninaWeb.BD.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuario");
+                });
+
+            modelBuilder.Entity("PeluCaninaWeb.BD.Data.Entity.Rol", b =>
+                {
+                    b.HasOne("PeluCaninaWeb.BD.Data.Entity.Usuario", null)
+                        .WithMany("Roles")
+                        .HasForeignKey("UsuarioId");
+                });
+
+            modelBuilder.Entity("PeluCaninaWeb.BD.Data.Entity.Usuario", b =>
+                {
+                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }

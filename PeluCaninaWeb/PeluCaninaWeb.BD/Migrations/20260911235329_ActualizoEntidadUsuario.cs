@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PeluCaninaWeb.BD.Migrations
 {
     /// <inheritdoc />
-    public partial class actualizoEntidadRol : Migration
+    public partial class ActualizoEntidadUsuario : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -47,20 +47,6 @@ namespace PeluCaninaWeb.BD.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Promocion", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Rol",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RolId = table.Column<int>(type: "int", nullable: false),
-                    NombreRol = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rol", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -128,6 +114,31 @@ namespace PeluCaninaWeb.BD.Migrations
                 {
                     table.PrimaryKey("PK_Usuario", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Rol",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RolId = table.Column<int>(type: "int", nullable: false),
+                    NombreRol = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rol", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Rol_Usuario_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuario",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rol_UsuarioId",
+                table: "Rol",
+                column: "UsuarioId");
         }
 
         /// <inheritdoc />
