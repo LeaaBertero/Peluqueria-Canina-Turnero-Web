@@ -5,7 +5,7 @@
 
 
 <h1 class="text-center mb-4 text-primary fw-bold">
-    👥 Lista de Usuarios
+    👥 Lista de Usuarios y roles
 </h1>
 
 <div class="d-flex justify-content-between mb-3">
@@ -20,24 +20,32 @@
 @if (listausuario == null)
 {
     <div class="alert alert-info text-center">
-        <i class="bi bi-search"></i> Buscando usuarios registrados...
+        <i class="bi bi-search"></i> Buscando usuarios y roles...
     </div>
 }
 else
 {
     <div class="table-responsive shadow-sm rounded">
+        
         <table class="table table-hover align-middle">
+            
             <thead class="table-dark">
+                
                 <tr>
+                
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>E-mail</th>
                     <th>Contraseña</th>
                     <th>Teléfono</th>
-                    <th>Roles</th>
+                    @* <th>Rol</th> *@
+            
                 </tr>
+            
             </thead>
+            
             <tbody>
+               
                 @foreach (var item in listausuario)
                 {
                     <tr>
@@ -46,25 +54,21 @@ else
                         <td>@item.Email</td>
                         <td>@item.Contrasenia</td>
                         <td>@item.Telefono</td>
-                        <td>
-                            @if (item.Roles != null && item.Roles.Any())
-                            {
-                                <!-- Mostrar roles separados por coma -->
-                                @string.Join(", ", item.Roles.Select(r => r.NombreRol))
-                            }
-                            else
-                            {
-                                <span>Sin roles</span>
-                            }
-                        </td>
+                       
                     </tr>
+
+                  
+
                 }
+                                        
             </tbody>
+                                                                     
         </table>
+                                                          
     </div>
-
 }
-
+                            
+           
     <div class="d-flex justify-content-between mb-3">
         @*  <a class="btn btn-success" href="/Api/Usuario/Crear">
             <i class="bi bi-person-plus"></i> Voler atrás
@@ -100,4 +104,11 @@ else
         }
 
     }
+    
+    
+   
 }
+      
+
+    
+

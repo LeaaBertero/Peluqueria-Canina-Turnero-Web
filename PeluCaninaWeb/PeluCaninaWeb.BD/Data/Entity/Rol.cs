@@ -18,5 +18,7 @@ namespace PeluCaninaWeb.BD.Data.Entity
         [MaxLength(100, ErrorMessage = "Maximo número de caracteres {1}")]
         public string? NombreRol { get; set; }
         #endregion
+
+        public List<Usuario> Usuarios { get; set; } = new List<Usuario>();
     }
 }
